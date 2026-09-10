@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .animated-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #e0ecff 35%, #c7ddff 60%, #e9d5ff 100%);
+    background-size: 200% 200%;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #4268e0 0%, #7e22ce 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .math-texture {
+    position: relative;
+  }
+
+  .math-texture > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .math-texture::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ctext x='30' y='70' font-size='42' fill='%234268e0' opacity='0.05'%3Eπ%3C/text%3E%3Ctext x='180' y='130' font-size='36' fill='%237e22ce' opacity='0.05'%3E∑%3C/text%3E%3Ctext x='90' y='230' font-size='32' fill='%234268e0' opacity='0.05'%3E√%3C/text%3E%3Ctext x='280' y='280' font-size='40' fill='%237e22ce' opacity='0.05'%3E∞%3C/text%3E%3Ctext x='320' y='100' font-size='34' fill='%234268e0' opacity='0.05'%3Eθ%3C/text%3E%3Ctext x='250' y='370' font-size='38' fill='%237e22ce' opacity='0.05'%3E∫%3C/text%3E%3C/svg%3E");
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
