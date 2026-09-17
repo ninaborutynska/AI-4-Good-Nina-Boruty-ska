@@ -1,0 +1,561 @@
+{
+  "name": "CareFlow Reminders",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "monthsInterval": 12
+            }
+          ]
+        }
+      },
+      "id": "d54a7386-912a-48d2-80fd-513984ea2ce7",
+      "name": "Elke 30 minuten",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "onboarding_complete",
+              "keyValue": "={{ true }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "id": "9fba0df3-6632-4f43-9d28-ddd763882689",
+      "name": "Gebruikers ophalen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "5n58Gk7dIpuPuWwt",
+          "cachedResultName": "careflow_reminders"
+        },
+        "returnAll": true
+      },
+      "id": "fcd0bb7e-ae42-4f6e-bb9a-75496883f7c5",
+      "name": "Herinneringen van vandaag",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const url = 'https://careflown8n.app.n8n.cloud/webhook/careflow';\nconst users = $('Gebruikers ophalen').all().map(i => i.json).filter(u => u && u.session_id && u.email);\nconst reminders = $input.all().map(i => i.json).filter(r => r && r.session_id);\nconst now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));\nconst pad = n => String(n).padStart(2, '0');\nconst today = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());\nconst mins = now.getHours() * 60 + now.getMinutes();\nfunction toMin(t, fb) {\n  const p = String(t || '').split(':');\n  const h = Number(p[0]);\n  const m = Number(p[1]);\n  if (isNaN(h) || isNaN(m)) { return fb; }\n  return h * 60 + m;\n}\nconst TXT = {\n  nl: {\n    ochtend: { s: 'CareFlow: goedemorgen', b: 'Goedemorgen NAAM,\\n\\nVergeet u niet uw medicijnen in te nemen?\\nWilt u daarna even aangeven hoe u zich voelt?\\n\\nOpen CareFlow: ' + url },\n    middag: { s: 'CareFlow: even bijpraten', b: 'Goedemiddag NAAM,\\n\\nHoe gaat het vandaag met u? Laat het ons kort weten.\\n\\nOpen CareFlow: ' + url },\n    avond: { s: 'CareFlow: avond-check', b: 'Goedenavond NAAM,\\n\\nHeeft u vandaag uw medicijnen ingenomen en is verder alles goed?\\n\\nOpen CareFlow: ' + url }\n  },\n  en: {\n    ochtend: { s: 'CareFlow: good morning', b: 'Good morning NAAM,\\n\\nPlease remember to take your medication.\\nCould you then let us know how you feel?\\n\\nOpen CareFlow: ' + url },\n    middag: { s: 'CareFlow: checking in', b: 'Good afternoon NAAM,\\n\\nHow are you doing today? Let us know briefly.\\n\\nOpen CareFlow: ' + url },\n    avond: { s: 'CareFlow: evening check', b: 'Good evening NAAM,\\n\\nDid you take your medication today, and is everything else okay?\\n\\nOpen CareFlow: ' + url }\n  },\n  tr: {\n    ochtend: { s: 'CareFlow: gunaydin', b: 'Gunaydin NAAM,\\n\\nIlaclarinizi almayi unutmayin.\\nArdindan kendinizi nasil hissettiginizi bildirir misiniz?\\n\\nCareFlow: ' + url },\n    middag: { s: 'CareFlow: nasilsiniz', b: 'Iyi gunler NAAM,\\n\\nBugun nasilsiniz? Kisaca bize bildirin.\\n\\nCareFlow: ' + url },\n    avond: { s: 'CareFlow: aksam kontrolu', b: 'Iyi aksamlar NAAM,\\n\\nBugun ilaclarinizi aldiniz mi ve her sey yolunda mi?\\n\\nCareFlow: ' + url }\n  },\n  ar: {\n    ochtend: { s: 'CareFlow: صباح الخير', b: 'صباح الخير NAAM،\\n\\nلا تنس تناول أدويتك.\\nهل يمكنك بعد ذلك إخبارنا كيف تشعر؟\\n\\nافتح CareFlow: ' + url },\n    middag: { s: 'CareFlow: كيف حالك', b: 'مساء الخير NAAM،\\n\\nكيف حالك اليوم؟ أخبرنا باختصار.\\n\\nافتح CareFlow: ' + url },\n    avond: { s: 'CareFlow: فحص المساء', b: 'مساء الخير NAAM،\\n\\nهل تناولت أدويتك اليوم وهل كل شيء على ما يرام؟\\n\\nافتح CareFlow: ' + url }\n  }\n};\nconst out = [];\nfor (const u of users) {\n  if (u.onboarding_complete !== true && u.onboarding_complete !== 'true') { continue; }\n  const lang = TXT[u.language] ? u.language : 'nl';\n  const perDay = Number(u.reminders_per_day || 2);\n  const wake = toMin(u.wake_time, 480);\n  const sleep = toMin(u.sleep_time, 1320);\n  const slots = [{ type: 'ochtend', at: wake + 30 }];\n  if (perDay >= 3) { slots.push({ type: 'middag', at: 13 * 60 }); }\n  if (perDay >= 2) { slots.push({ type: 'avond', at: sleep - 60 }); }\n  for (const s of slots) {\n    if (mins < s.at || mins >= s.at + 30) { continue; }\n    const already = reminders.some(r => r.session_id === u.session_id && r.check_type === s.type && String(r.created_at || '').slice(0, 10) === today);\n    if (already) { continue; }\n    const tx = TXT[lang][s.type];\n    out.push({ json: {\n      session_id: u.session_id,\n      email: u.email,\n      name: u.name || '',\n      check_type: s.type,\n      check_id: s.type + '_' + today + '_' + u.session_id,\n      subject: tx.s,\n      body: tx.b.split('NAAM').join(u.name || '')\n    } });\n  }\n}\nreturn out;"
+      },
+      "id": "e40fc7b6-d5e0-4c13-a6e7-51901a81cc00",
+      "name": "Herinnering opstellen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "b9d94030-793c-4263-954b-4d39824c472c",
+      "name": "Herinnering mailen",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        0
+      ],
+      "webhookId": "d4d56166-6df2-43c0-ac5f-4f5bce310f2f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QPEcmMTaCkLASki8",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "5n58Gk7dIpuPuWwt",
+          "cachedResultName": "careflow_reminders"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [],
+          "value": {
+            "session_id": "={{ $('Herinnering opstellen').item.json.session_id }}",
+            "check_id": "={{ $('Herinnering opstellen').item.json.check_id }}",
+            "check_type": "={{ $('Herinnering opstellen').item.json.check_type }}",
+            "status": "open",
+            "created_at": "={{ $now.toISO() }}",
+            "last_response_at": "",
+            "emergency_notified": false
+          }
+        },
+        "options": {}
+      },
+      "id": "a3e310ae-f982-4016-9aa7-359b0f273a7c",
+      "name": "Herinnering vastleggen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "returnAll": true
+      },
+      "id": "6bc3c40d-c893-4078-bf93-df3d80354f6d",
+      "name": "Gebruikers (escalatie)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "5n58Gk7dIpuPuWwt",
+          "cachedResultName": "careflow_reminders"
+        },
+        "returnAll": true
+      },
+      "id": "0faf5200-9dc8-4186-90a9-f486a9cfcde6",
+      "name": "Openstaande herinneringen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        320
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const url = 'https://careflown8n.app.n8n.cloud/webhook/careflow';\nconst users = $('Gebruikers (escalatie)').all().map(i => i.json).filter(u => u && u.session_id);\nconst rows = $input.all().map(i => i.json).filter(r => r && r.session_id && r.status);\nconst nowMs = Date.now();\nconst R2 = {\n  nl: { s: 'CareFlow: heeft u het gezien?', b: 'Beste NAAM,\\n\\nWe hebben nog geen antwoord van u ontvangen. Wilt u de check-in alsnog invullen?\\n\\nOpen CareFlow: ' + url + '\\n\\nAls we over 30 minuten nog niets horen, laten we het uw contactpersonen weten.' },\n  en: { s: 'CareFlow: did you see this?', b: 'Dear NAAM,\\n\\nWe have not heard from you yet. Could you still complete the check-in?\\n\\nOpen CareFlow: ' + url + '\\n\\nIf we hear nothing in 30 minutes, we will let your contacts know.' },\n  tr: { s: 'CareFlow: gordunuz mu?', b: 'Sayin NAAM,\\n\\nHenuz sizden yanit almadik. Kontrolu tamamlar misiniz?\\n\\nCareFlow: ' + url + '\\n\\n30 dakika icinde yanit alamazsak kisilerinize haber verecegiz.' },\n  ar: { s: 'CareFlow: هل رأيت هذا؟', b: 'عزيزي NAAM،\\n\\nلم نتلق ردا منك بعد. هل يمكنك إكمال الفحص؟\\n\\nافتح CareFlow: ' + url + '\\n\\nإذا لم نسمع منك خلال 30 دقيقة فسنخبر جهات اتصالك.' }\n};\nconst ESC = {\n  nl: { s: 'CareFlow: geen reactie van NAAM', b: 'Beste,\\n\\nNAAM heeft vandaag niet gereageerd op twee CareFlow-herinneringen (CHECK).\\n\\nAdres: ADRES\\n\\nWilt u even contact opnemen of langsgaan?\\n\\nDit is een automatisch bericht van CareFlow, een studentenproject. CareFlow belt zelf geen 112, politie of huisarts. Is er direct gevaar? Bel zelf 112.' },\n  en: { s: 'CareFlow: no response from NAAM', b: 'Hello,\\n\\nNAAM has not responded to two CareFlow reminders today (CHECK).\\n\\nAddress: ADRES\\n\\nCould you get in touch or drop by?\\n\\nThis is an automated message from CareFlow, a student project. CareFlow does not call 112, the police or a doctor itself. Immediate danger? Call 112 yourself.' },\n  tr: { s: 'CareFlow: NAAM yanit vermedi', b: 'Merhaba,\\n\\nNAAM bugun iki CareFlow hatirlatmasina yanit vermedi (CHECK).\\n\\nAdres: ADRES\\n\\nIletisime gecer veya ugrar misiniz?\\n\\nBu, bir ogrenci projesi olan CareFlow tarafindan gonderilen otomatik bir mesajdir. CareFlow kendisi 112, polis veya doktor aramaz. Acil tehlike mi var? 112 yi kendiniz arayin.' },\n  ar: { s: 'CareFlow: لا يوجد رد من NAAM', b: 'مرحبا،\\n\\nلم يرد NAAM اليوم على تذكيرين من CareFlow (CHECK).\\n\\nالعنوان: ADRES\\n\\nهل يمكنك التواصل أو المرور؟\\n\\nهذه رسالة تلقائية من CareFlow، وهو مشروع طلابي. لا يتصل CareFlow بالرقم 112 أو الشرطة أو الطبيب. هل هناك خطر فوري؟ اتصل بالرقم 112 بنفسك.' }\n};\nconst out = [];\nfor (const r of rows) {\n  if (r.status !== 'open' && r.status !== 'herinnerd') { continue; }\n  const created = new Date(r.created_at).getTime();\n  if (isNaN(created)) { continue; }\n  const age = (nowMs - created) / 60000;\n  const u = users.find(x => x.session_id === r.session_id);\n  if (!u) { continue; }\n  const lang = R2[u.language] ? u.language : 'nl';\n  const naam = u.name || 'CareFlow';\n  if (r.status === 'open' && age >= 45) {\n    out.push({ json: {\n      action: 'herinnering2',\n      check_id: r.check_id,\n      session_id: r.session_id,\n      to_list: u.email || '',\n      subject: R2[lang].s,\n      body: R2[lang].b.split('NAAM').join(naam)\n    } });\n  } else if (r.status === 'herinnerd' && age >= 75 && r.emergency_notified !== true) {\n    const to = [];\n    if (u.contact1_contact) { to.push(String(u.contact1_contact).trim()); }\n    if (u.contact2_contact) { to.push(String(u.contact2_contact).trim()); }\n    const gpOk = (u.consent_gp === true || u.consent_gp === 'true');\n    if (gpOk && u.gp_contact && String(u.gp_contact).indexOf('@') > -1) { to.push(String(u.gp_contact).trim()); }\n    if (to.length === 0) { continue; }\n    const body = ESC[lang].b.split('NAAM').join(naam).split('CHECK').join(r.check_type).split('ADRES').join(u.address || '-');\n    out.push({ json: {\n      action: 'escalatie',\n      check_id: r.check_id,\n      session_id: r.session_id,\n      to_list: to.join(','),\n      subject: ESC[lang].s.split('NAAM').join(naam),\n      body: body\n    } });\n  }\n}\nreturn out;"
+      },
+      "id": "bad66f96-4d17-4af2-991b-966a8b4aff73",
+      "name": "Escalatie bepalen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "esc",
+              "leftValue": "={{ $json.action }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              },
+              "rightValue": "escalatie"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ff5d4581-245d-42d9-836f-c91df5d43277",
+      "name": "Escalatie of tweede herinnering?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.to_list }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "1db1fdf8-7d85-40a0-a324-91316e0fa881",
+      "name": "Contactpersonen waarschuwen",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        224
+      ],
+      "webhookId": "becf20f2-7b0a-427d-a3e9-7c29ccdd07f9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QPEcmMTaCkLASki8",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "5n58Gk7dIpuPuWwt",
+          "cachedResultName": "careflow_reminders"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "check_id",
+              "keyValue": "={{ $('Escalatie bepalen').item.json.check_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "check_id"
+          ],
+          "schema": [],
+          "value": {
+            "status": "geescaleerd",
+            "emergency_notified": true,
+            "last_response_at": "={{ $now.toISO() }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "904da06a-1498-4483-908b-42c7e6cd106e",
+      "name": "Herinnering op geescaleerd",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        224
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "cAF1v5hkcxcqB1Ds",
+          "cachedResultName": "careflow_emergencies"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [],
+          "value": {
+            "session_id": "={{ $('Escalatie bepalen').item.json.session_id }}",
+            "event_type": "GEEN_REACTIE",
+            "event_time": "={{ $now.toISO() }}",
+            "detail": "={{ 'Geen reactie op twee herinneringen: ' + $('Escalatie bepalen').item.json.check_id }}",
+            "notified_contact": "={{ $('Escalatie bepalen').item.json.to_list }}",
+            "resolved": false
+          }
+        },
+        "options": {}
+      },
+      "id": "65ea5bce-f4e0-4237-84fa-de9b90cceb3a",
+      "name": "Escalatie vastleggen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1568,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.to_list }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "302bf5cd-c21c-4455-a197-353aaefa8fc3",
+      "name": "Tweede herinnering mailen",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        416
+      ],
+      "webhookId": "c33c76d4-10c7-4da8-8824-c4b4f176b171",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QPEcmMTaCkLASki8",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "5n58Gk7dIpuPuWwt",
+          "cachedResultName": "careflow_reminders"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "check_id",
+              "keyValue": "={{ $('Escalatie bepalen').item.json.check_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "check_id"
+          ],
+          "schema": [],
+          "value": {
+            "status": "herinnerd"
+          }
+        },
+        "options": {}
+      },
+      "id": "be3ef7c8-26f1-4ba4-aee8-0eb060e1573b",
+      "name": "Herinnering op herinnerd",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        416
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Elke 30 minuten": {
+      "main": [
+        [
+          {
+            "node": "Gebruikers ophalen",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gebruikers (escalatie)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruikers ophalen": {
+      "main": [
+        [
+          {
+            "node": "Herinneringen van vandaag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Herinneringen van vandaag": {
+      "main": [
+        [
+          {
+            "node": "Herinnering opstellen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Herinnering opstellen": {
+      "main": [
+        [
+          {
+            "node": "Herinnering mailen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Herinnering mailen": {
+      "main": [
+        [
+          {
+            "node": "Herinnering vastleggen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruikers (escalatie)": {
+      "main": [
+        [
+          {
+            "node": "Openstaande herinneringen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Openstaande herinneringen": {
+      "main": [
+        [
+          {
+            "node": "Escalatie bepalen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalatie bepalen": {
+      "main": [
+        [
+          {
+            "node": "Escalatie of tweede herinnering?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalatie of tweede herinnering?": {
+      "main": [
+        [
+          {
+            "node": "Contactpersonen waarschuwen",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tweede herinnering mailen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contactpersonen waarschuwen": {
+      "main": [
+        [
+          {
+            "node": "Herinnering op geescaleerd",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Herinnering op geescaleerd": {
+      "main": [
+        [
+          {
+            "node": "Escalatie vastleggen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tweede herinnering mailen": {
+      "main": [
+        [
+          {
+            "node": "Herinnering op herinnerd",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "656acc78-bfbe-4210-bcb2-08c704017711",
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp",
+    "instanceId": "ce3fea3a6c3de565710366967f152fba5746bf6e5e87fdbebbed8d996dd5d3c7"
+  },
+  "nodeGroups": [],
+  "id": "Qpo150er6YmPdxxN",
+  "tags": []
+}

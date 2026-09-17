@@ -1,0 +1,190 @@
+{
+  "name": "CareFlow Monthly Analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "cc8a2447-1925-45c8-93f6-f8091d68d9cd",
+      "name": "Elke 1e van de maand",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "returnAll": true
+      },
+      "id": "8e5b4692-2be0-49fa-85e5-2b764f06d93a",
+      "name": "Gebruikers ophalen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "XVl3jOEAPADaoRA9",
+          "cachedResultName": "careflow_logs"
+        },
+        "returnAll": true
+      },
+      "id": "759c6ded-f837-419a-8b70-6b4178b2cee9",
+      "name": "Alle antwoorden ophalen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const users = $('Gebruikers ophalen').all().map(i => i.json).filter(u => u && u.session_id && u.email);\nconst logs = $input.all().map(i => i.json).filter(l => l && l.session_id);\nconst now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));\nconst first = new Date(now.getFullYear(), now.getMonth() - 1, 1);\nconst pad = n => String(n).padStart(2, '0');\nconst maandPrefix = first.getFullYear() + '-' + pad(first.getMonth() + 1);\nconst MND = {\n  nl: ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'],\n  en: ['January','February','March','April','May','June','July','August','September','October','November','December'],\n  tr: ['Ocak','Subat','Mart','Nisan','Mayis','Haziran','Temmuz','Agustos','Eylul','Ekim','Kasim','Aralik'],\n  ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر']\n};\nconst TAALNAAM = { nl: 'Nederlands', en: 'English', tr: 'Turkish', ar: 'Arabic' };\nconst out = [];\nfor (const u of users) {\n  if (u.onboarding_complete !== true && u.onboarding_complete !== 'true') { continue; }\n  const lang = MND[u.language] ? u.language : 'nl';\n  const maandNaam = MND[lang][first.getMonth()] + ' ' + first.getFullYear();\n  const mine = logs.filter(l => l.session_id === u.session_id && String(l.log_date || '').slice(0, 7) === maandPrefix);\n  if (mine.length === 0) { continue; }\n  const ochtend = mine.filter(l => l.period === 'ochtend');\n  const avond = mine.filter(l => l.period === 'avond');\n  const berichten = mine.filter(l => l.period === 'bericht');\n  const scores = ochtend.map(l => parseInt(l.wellbeing, 10)).filter(n => !isNaN(n));\n  const gem = scores.length ? (scores.reduce((a, b) => a + b, 0) / scores.length) : null;\n  const medJa = avond.filter(l => l.medication_taken === 'ja').length;\n  const medNee = avond.filter(l => l.medication_taken === 'nee').length;\n  const aandacht = mine.filter(l => l.concern_level === 'AANDACHT' || l.concern_level === 'URGENT').length;\n  const laagsteDagen = ochtend.filter(l => parseInt(l.wellbeing, 10) <= 2).map(l => l.log_date);\n  const berichtTeksten = berichten.slice(-15).map(l => l.log_date + ': ' + String(l.symptoms || '').slice(0, 200));\n  const feiten = [\n    'WRITE YOUR ANSWER IN THIS LANGUAGE: ' + TAALNAAM[lang],\n    'Month: ' + maandNaam,\n    'Name: ' + (u.name || 'unknown'),\n    'Morning check-ins: ' + ochtend.length,\n    'Average wellbeing (1 = bad, 5 = good): ' + (gem === null ? 'no data' : gem.toFixed(1)),\n    'Days scoring 1 or 2: ' + (laagsteDagen.length ? laagsteDagen.join(', ') : 'none'),\n    'Evening check-ins: ' + avond.length,\n    'Medication taken: ' + medJa + ' times yes, ' + medNee + ' times no',\n    'Moments needing attention: ' + aandacht,\n    'Own messages: ' + (berichtTeksten.length ? berichtTeksten.join(' | ') : 'none')\n  ].join('\\n');\n  out.push({ json: {\n    session_id: u.session_id,\n    email: u.email,\n    name: u.name || '',\n    lang: lang,\n    maand: maandNaam,\n    gemiddelde: gem === null ? '' : gem.toFixed(1),\n    ochtend_aantal: ochtend.length,\n    avond_aantal: avond.length,\n    med_ja: medJa,\n    med_nee: medNee,\n    aandacht: aandacht,\n    feiten: feiten\n  } });\n}\nreturn out;"
+      },
+      "id": "bd7ec2e9-6362-4ace-b5c7-555d31119b96",
+      "name": "Maandcijfers berekenen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const stats = $('Maandcijfers berekenen').item.json;\nconst ai = $input.first().json || {};\nconst lang = stats.lang || 'nl';\nconst L = {\n  nl: { hi: 'Beste', subj: 'Uw CareFlow-overzicht van ', head: 'Uw cijfers van ', m: 'Ochtend-checks', a: 'Avond-checks', w: 'Gemiddeld welbevinden', scale: '(1 = slecht, 5 = goed)', med: 'Medicijnen ingenomen', yes: 'keer ja', no: 'keer nee', att: 'Momenten met extra aandacht', none: 'geen gegevens', fb: 'Hieronder vindt u uw cijfers van afgelopen maand.', disc: 'Dit overzicht is automatisch gemaakt door CareFlow, een studentenproject. Het is geen medisch advies. Bespreek zorgen altijd met uw huisarts. Bel bij nood zelf 112.' },\n  en: { hi: 'Dear', subj: 'Your CareFlow overview for ', head: 'Your figures for ', m: 'Morning check-ins', a: 'Evening check-ins', w: 'Average wellbeing', scale: '(1 = bad, 5 = good)', med: 'Medication taken', yes: 'times yes', no: 'times no', att: 'Moments needing attention', none: 'no data', fb: 'Below are your figures for last month.', disc: 'This overview was generated automatically by CareFlow, a student project. It is not medical advice. Always discuss concerns with your doctor. In an emergency, call 112 yourself.' },\n  tr: { hi: 'Sayin', subj: 'CareFlow ozetiniz: ', head: 'Rakamlariniz: ', m: 'Sabah kontrolleri', a: 'Aksam kontrolleri', w: 'Ortalama iyilik hali', scale: '(1 = kotu, 5 = iyi)', med: 'Ilac alindi', yes: 'kez evet', no: 'kez hayir', att: 'Dikkat gerektiren anlar', none: 'veri yok', fb: 'Asagida gecen aya ait rakamlariniz yer aliyor.', disc: 'Bu ozet, bir ogrenci projesi olan CareFlow tarafindan otomatik olusturulmustur. Tibbi tavsiye degildir. Endiselerinizi mutlaka doktorunuzla gorusun. Acil durumda 112 yi kendiniz arayin.' },\n  ar: { hi: 'عزيزي', subj: 'ملخص CareFlow لشهر ', head: 'أرقامك لشهر ', m: 'فحوصات الصباح', a: 'فحوصات المساء', w: 'متوسط الشعور بالراحة', scale: '(1 = سيء، 5 = جيد)', med: 'تناول الدواء', yes: 'مرة نعم', no: 'مرة لا', att: 'لحظات تحتاج انتباها', none: 'لا توجد بيانات', fb: 'فيما يلي أرقامك للشهر الماضي.', disc: 'تم إنشاء هذا الملخص تلقائيا بواسطة CareFlow، وهو مشروع طلابي. ليس هذا نصيحة طبية. ناقش أي قلق مع طبيبك دائما. في حالة الطوارئ اتصل بالرقم 112 بنفسك.' }\n};\nconst x = L[lang] || L.nl;\nlet tekst = '';\nif (typeof ai.content === 'string') { tekst = ai.content; }\nelse if (ai.message && typeof ai.message.content === 'string') { tekst = ai.message.content; }\nelse if (typeof ai.text === 'string') { tekst = ai.text; }\ntekst = String(tekst || '').trim();\nif (!tekst) { tekst = x.fb; }\nconst cijfers = x.head + stats.maand + ':\\n' +\n  '- ' + x.m + ': ' + stats.ochtend_aantal + '\\n' +\n  '- ' + x.a + ': ' + stats.avond_aantal + '\\n' +\n  '- ' + x.w + ': ' + (stats.gemiddelde || x.none) + ' ' + x.scale + '\\n' +\n  '- ' + x.med + ': ' + stats.med_ja + ' ' + x.yes + ', ' + stats.med_nee + ' ' + x.no + '\\n' +\n  '- ' + x.att + ': ' + stats.aandacht;\nconst body = x.hi + ' ' + (stats.name || '') + ',\\n\\n' + tekst + '\\n\\n' + cijfers + '\\n\\n' + x.disc;\nreturn [{ json: { email: stats.email, subject: x.subj + stats.maand, body: body } }];"
+      },
+      "id": "8f3435cd-1da0-4d8c-865d-58c5de6773c3",
+      "name": "Rapport opmaken",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "89addd71-9853-4843-9d75-e59abd1c920b",
+      "name": "Maandrapport mailen",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        0
+      ],
+      "webhookId": "6327af36-50a5-48e5-bc70-89e9185cdc9c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QPEcmMTaCkLASki8",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Elke 1e van de maand": {
+      "main": [
+        [
+          {
+            "node": "Gebruikers ophalen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruikers ophalen": {
+      "main": [
+        [
+          {
+            "node": "Alle antwoorden ophalen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alle antwoorden ophalen": {
+      "main": [
+        [
+          {
+            "node": "Maandcijfers berekenen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Maandcijfers berekenen": {
+      "main": [
+        [
+          {
+            "node": "Rapport opmaken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rapport opmaken": {
+      "main": [
+        [
+          {
+            "node": "Maandrapport mailen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "31a4ec73-af13-4b49-9d97-e45062eddc64",
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp",
+    "instanceId": "ce3fea3a6c3de565710366967f152fba5746bf6e5e87fdbebbed8d996dd5d3c7"
+  },
+  "nodeGroups": [],
+  "id": "3Q20KbV86tQrf915",
+  "tags": []
+}

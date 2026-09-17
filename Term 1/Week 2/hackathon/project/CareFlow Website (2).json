@@ -1,0 +1,2042 @@
+{
+  "name": "CareFlow Website",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "careflow",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "52f05c2c-ccf7-4fe7-be4d-239b89aa6a4d",
+      "name": "Website openen",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "49367f1d-940f-411f-a336-e5022a1acab1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = \"<!doctype html><html lang=\\\"nl\\\"><head><meta charset=\\\"utf-8\\\"><meta name=\\\"viewport\\\" content=\\\"width=device-width,initial-scale=1\\\"><title>CareFlow</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef4f8;color:#14283a;font-size:20px;line-height:1.5}.wrap{max-width:640px;margin:0 auto;padding:16px}header{background:#0b6b5b;color:#fff;padding:16px;text-align:center}header h1{margin:0;font-size:30px}header p{margin:6px 0 0;font-size:17px;opacity:.9}.langbar{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}.langbar button{width:auto;flex:0 0 auto;margin:0;padding:8px 14px;font-size:16px;background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.45)}.langbar button.active{background:#fff;color:#0b6b5b;border-color:#fff}.screen{display:none;background:#fff;border-radius:14px;padding:22px;margin-top:18px;box-shadow:0 2px 10px rgba(0,0,0,.08)}h2{font-size:26px;margin:0 0 14px;color:#0b6b5b}h3{font-size:21px;margin:18px 0 8px}label{display:block;font-weight:bold;margin:14px 0 6px;font-size:19px}input,select,textarea{width:100%;padding:14px;font-size:20px;border:2px solid #b9ccd8;border-radius:10px;background:#fbfdff}button{width:100%;padding:16px;font-size:21px;font-weight:bold;border:0;border-radius:12px;background:#0b6b5b;color:#fff;margin-top:14px;cursor:pointer}button.sec{background:#e3edf3;color:#0b6b5b}button.help{background:#c0392b}button.on{background:#095446;outline:4px solid #7fd0bf}a.call{display:block;text-align:center;padding:16px;font-size:22px;font-weight:bold;border-radius:12px;background:#c0392b;color:#fff;text-decoration:none;margin-top:10px}.row2{display:flex;gap:12px}.row2>div{flex:1}.msg{padding:14px;border-radius:10px;margin-top:14px;font-size:18px;display:none}.msg.err{background:#fdecea;color:#a5321f;display:block}.msg.ok{background:#e7f6ef;color:#0b6b5b;display:block}.card{background:#f4f9fb;border:1px solid #d3e2ea;border-radius:12px;padding:16px;margin-top:14px}.card b{color:#0b6b5b}.big{font-size:22px}.scorebtns{display:flex;flex-direction:column;gap:10px;margin-top:12px}.scorebtns button{margin-top:0;text-align:left}.link{color:#0b6b5b;text-decoration:underline;cursor:pointer;font-weight:bold;display:inline-block;margin-top:16px}.muted{color:#5b7183;font-size:16px}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.tiles button{margin-top:0}.replybox{background:#eef4f8;border-radius:10px;padding:14px;margin-top:12px;white-space:pre-wrap}[dir=rtl] .link,[dir=rtl] label{text-align:right}@media(max-width:480px){body{font-size:19px}.tiles{grid-template-columns:1fr}} #welcome{display:block}</style></head><body><header><h1>CareFlow</h1><p data-i18n=\\\"sub\\\"></p><div class=\\\"langbar\\\"><button id=\\\"lb_nl\\\" onclick=\\\"setLang('nl')\\\">Nederlands</button><button id=\\\"lb_en\\\" onclick=\\\"setLang('en')\\\">English</button><button id=\\\"lb_tr\\\" onclick=\\\"setLang('tr')\\\">Turkce</button><button id=\\\"lb_ar\\\" onclick=\\\"setLang('ar')\\\">العربية</button></div></header><div class=\\\"wrap\\\"><div id=\\\"welcome\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"w_title\\\"></h2><p class=\\\"big\\\" data-i18n=\\\"w_intro\\\"></p><button onclick=\\\"show('login')\\\" data-i18n=\\\"b_login\\\"></button><button class=\\\"sec\\\" onclick=\\\"show('register')\\\" data-i18n=\\\"b_register\\\"></button><p class=\\\"muted\\\" data-i18n=\\\"w_disc\\\"></p></div><div id=\\\"register\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"r_title\\\"></h2><label data-i18n=\\\"f_email\\\"></label><input id=\\\"r_email\\\" type=\\\"email\\\"><label data-i18n=\\\"f_pw\\\"></label><input id=\\\"r_pw\\\" type=\\\"password\\\"><label data-i18n=\\\"f_pw2\\\"></label><input id=\\\"r_pw2\\\" type=\\\"password\\\"><div id=\\\"r_msg\\\" class=\\\"msg\\\"></div><button onclick=\\\"doRegister()\\\" data-i18n=\\\"b_create\\\"></button><span class=\\\"link\\\" onclick=\\\"show('welcome')\\\" data-i18n=\\\"b_back\\\"></span></div><div id=\\\"login\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"l_title\\\"></h2><label data-i18n=\\\"f_email\\\"></label><input id=\\\"l_email\\\" type=\\\"email\\\"><label data-i18n=\\\"f_pw_login\\\"></label><input id=\\\"l_pw\\\" type=\\\"password\\\"><div id=\\\"l_msg\\\" class=\\\"msg\\\"></div><button onclick=\\\"doLogin()\\\" data-i18n=\\\"b_login\\\"></button><span class=\\\"link\\\" onclick=\\\"show('welcome')\\\" data-i18n=\\\"b_back\\\"></span></div><div id=\\\"quest\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"q_title\\\"></h2><p class=\\\"muted\\\" id=\\\"qstep_txt\\\"></p><div id=\\\"qs1\\\"><h3 data-i18n=\\\"q_about\\\"></h3><label data-i18n=\\\"f_name\\\"></label><input id=\\\"f_name\\\"><div class=\\\"row2\\\"><div><label data-i18n=\\\"f_age\\\"></label><input id=\\\"f_age\\\" type=\\\"number\\\"></div><div><label data-i18n=\\\"f_weight\\\"></label><input id=\\\"f_weight\\\"></div></div><label data-i18n=\\\"f_address\\\"></label><input id=\\\"f_address\\\"><label data-i18n=\\\"f_lang\\\"></label><select id=\\\"f_language\\\" onchange=\\\"setLang(this.value)\\\"><option value=\\\"nl\\\">Nederlands</option><option value=\\\"en\\\">English</option><option value=\\\"tr\\\">Turkce</option><option value=\\\"ar\\\">العربية</option></select><p class=\\\"muted\\\" data-i18n=\\\"q_lang_note\\\"></p></div><div id=\\\"qs2\\\" style=\\\"display:none\\\"><h3 data-i18n=\\\"q_health\\\"></h3><label data-i18n=\\\"f_meds\\\"></label><textarea id=\\\"f_medications\\\" rows=\\\"3\\\"></textarea><div class=\\\"row2\\\"><div><label data-i18n=\\\"f_wake\\\"></label><input id=\\\"f_wake\\\" placeholder=\\\"08:00\\\"></div><div><label data-i18n=\\\"f_sleep\\\"></label><input id=\\\"f_sleep\\\" placeholder=\\\"22:00\\\"></div></div><label data-i18n=\\\"f_rem\\\"></label><select id=\\\"f_reminders\\\"><option value=\\\"1\\\" data-i18n=\\\"o_r1\\\"></option><option value=\\\"2\\\" selected data-i18n=\\\"o_r2\\\"></option><option value=\\\"3\\\" data-i18n=\\\"o_r3\\\"></option></select></div><div id=\\\"qs3\\\" style=\\\"display:none\\\"><h3 data-i18n=\\\"q_contacts\\\"></h3><p class=\\\"muted\\\" data-i18n=\\\"q_contacts_note\\\"></p><label data-i18n=\\\"f_c1\\\"></label><input id=\\\"f_c1n\\\"><div class=\\\"row2\\\"><div><label data-i18n=\\\"f_rel\\\"></label><input id=\\\"f_c1r\\\"></div><div><label data-i18n=\\\"f_cmail\\\"></label><input id=\\\"f_c1c\\\" type=\\\"email\\\"></div></div><label data-i18n=\\\"f_c2\\\"></label><input id=\\\"f_c2n\\\"><div class=\\\"row2\\\"><div><label data-i18n=\\\"f_rel\\\"></label><input id=\\\"f_c2r\\\"></div><div><label data-i18n=\\\"f_cmail\\\"></label><input id=\\\"f_c2c\\\" type=\\\"email\\\"></div></div></div><div id=\\\"qs4\\\" style=\\\"display:none\\\"><h3 data-i18n=\\\"q_gp\\\"></h3><label><input type=\\\"checkbox\\\" id=\\\"f_cg\\\" style=\\\"width:auto\\\" onchange=\\\"gpToggle()\\\"> <span data-i18n=\\\"chk_gp\\\"></span></label><div id=\\\"gpbox\\\" style=\\\"display:none\\\"><label data-i18n=\\\"f_gpn\\\"></label><input id=\\\"f_gpn\\\"><div class=\\\"row2\\\"><div><label data-i18n=\\\"f_gpp\\\"></label><input id=\\\"f_gpp\\\"></div><div><label data-i18n=\\\"f_gpc\\\"></label><input id=\\\"f_gpc\\\" type=\\\"email\\\"></div></div></div><label><input type=\\\"checkbox\\\" id=\\\"f_cs\\\" style=\\\"width:auto\\\"> <span data-i18n=\\\"chk_store\\\"></span></label></div><div id=\\\"q_msg\\\" class=\\\"msg\\\"></div><div class=\\\"row2\\\"><div><button class=\\\"sec\\\" onclick=\\\"qPrev()\\\" data-i18n=\\\"b_prev\\\"></button></div><div><button onclick=\\\"qNext()\\\" id=\\\"qnextbtn\\\"></button></div></div></div><div id=\\\"review\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"rev_title\\\"></h2><div id=\\\"rev_body\\\" class=\\\"card\\\"></div><div id=\\\"rev_msg\\\" class=\\\"msg\\\"></div><button onclick=\\\"saveProfile()\\\" data-i18n=\\\"b_confirm\\\"></button><span class=\\\"link\\\" onclick=\\\"show('quest')\\\" data-i18n=\\\"b_edit\\\"></span></div><div id=\\\"dash\\\" class=\\\"screen\\\"><h2 id=\\\"dash_hi\\\"></h2><div id=\\\"dash_status\\\" class=\\\"card\\\"></div><div class=\\\"tiles\\\"><button onclick=\\\"startCheck('ochtend')\\\" data-i18n=\\\"d_morning\\\"></button><button onclick=\\\"startCheck('avond')\\\" data-i18n=\\\"d_evening\\\"></button><button class=\\\"sec\\\" onclick=\\\"openCard()\\\" data-i18n=\\\"d_card\\\"></button><button class=\\\"sec\\\" onclick=\\\"demoNotify()\\\" data-i18n=\\\"d_demo\\\"></button><button class=\\\"help\\\" onclick=\\\"show('help')\\\" data-i18n=\\\"b_help\\\"></button></div><div id=\\\"d_msg\\\" class=\\\"msg\\\"></div><div style=\\\"margin-top:14px\\\"><span class=\\\"link\\\" onclick=\\\"editProfile()\\\" data-i18n=\\\"b_editprofile\\\"></span> &nbsp; <span class=\\\"link\\\" onclick=\\\"logout()\\\" data-i18n=\\\"b_logout\\\"></span></div></div><div id=\\\"card\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"d_card\\\"></h2><div id=\\\"card_body\\\" class=\\\"card\\\"></div><p class=\\\"muted\\\" data-i18n=\\\"c_note\\\"></p><button class=\\\"sec\\\" onclick=\\\"show('dash')\\\" data-i18n=\\\"b_back_today\\\"></button></div><div id=\\\"check\\\" class=\\\"screen\\\"><h2 id=\\\"chk_title\\\"></h2><div id=\\\"ck_med\\\"><p class=\\\"big\\\" data-i18n=\\\"chk_med_q\\\"></p><div class=\\\"row2\\\"><div><button class=\\\"sec\\\" id=\\\"ck_med_ja\\\" onclick=\\\"ckSetMed('ja')\\\" data-i18n=\\\"yes\\\"></button></div><div><button class=\\\"sec\\\" id=\\\"ck_med_nee\\\" onclick=\\\"ckSetMed('nee')\\\" data-i18n=\\\"no\\\"></button></div></div><div id=\\\"ck_med_msg\\\" class=\\\"msg\\\"></div><button id=\\\"ck_med_next\\\" onclick=\\\"ckMedNext()\\\" data-i18n=\\\"b_next\\\"></button></div><div id=\\\"ck_score\\\" style=\\\"display:none\\\"><p class=\\\"big\\\" id=\\\"ck_score_q\\\"></p><div id=\\\"ck_score_btns\\\" class=\\\"scorebtns\\\"></div></div><div id=\\\"ck_s1\\\" style=\\\"display:none\\\"><p class=\\\"big\\\" data-i18n=\\\"s1_confirm_q\\\"></p><button class=\\\"help\\\" onclick=\\\"ckS1Confirm()\\\" data-i18n=\\\"s1_yes\\\"></button><button class=\\\"sec\\\" onclick=\\\"ckShowScore()\\\" data-i18n=\\\"s1_adjust\\\"></button></div><div id=\\\"ck_s1help\\\" style=\\\"display:none\\\"><p class=\\\"big\\\" data-i18n=\\\"s1_help_q\\\"></p><button class=\\\"help\\\" onclick=\\\"ckHelpYes()\\\" data-i18n=\\\"s1_help_yes\\\"></button><button class=\\\"sec\\\" onclick=\\\"ckHelpNo()\\\" data-i18n=\\\"s1_help_no\\\"></button><div id=\\\"ck_help_msg\\\" class=\\\"msg\\\"></div></div><div id=\\\"ck_text\\\" style=\\\"display:none\\\"><p class=\\\"big\\\" id=\\\"ck_text_q\\\"></p><textarea id=\\\"ck_text_val\\\" rows=\\\"4\\\"></textarea><div id=\\\"ck_text_msg\\\" class=\\\"msg\\\"></div><button onclick=\\\"ckSubmit()\\\" data-i18n=\\\"b_send\\\"></button></div><div id=\\\"ck_done\\\" style=\\\"display:none\\\"><div id=\\\"ck_done_msg\\\" class=\\\"replybox\\\"></div><button class=\\\"sec\\\" onclick=\\\"loadDash()\\\" data-i18n=\\\"b_back_today\\\"></button></div><div style=\\\"margin-top:10px\\\"><span class=\\\"link\\\" onclick=\\\"loadDash()\\\" data-i18n=\\\"b_back\\\"></span></div></div><div id=\\\"help\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"h_title\\\"></h2><div class=\\\"card\\\"><p class=\\\"big\\\"><b data-i18n=\\\"h_danger\\\"></b></p><a class=\\\"call\\\" href=\\\"tel:112\\\" data-i18n=\\\"h_call\\\"></a><p class=\\\"muted\\\" data-i18n=\\\"h_note\\\"></p></div><p class=\\\"big\\\" data-i18n=\\\"h_q\\\"></p><button class=\\\"help\\\" onclick=\\\"show('confirm')\\\" data-i18n=\\\"h_yes\\\"></button><button class=\\\"sec\\\" onclick=\\\"show('dash')\\\" data-i18n=\\\"h_no\\\"></button></div><div id=\\\"confirm\\\" class=\\\"screen\\\"><h2 data-i18n=\\\"cf_title\\\"></h2><p class=\\\"big\\\" data-i18n=\\\"cf_text\\\"></p><div id=\\\"h_msg\\\" class=\\\"msg\\\"></div><button class=\\\"help\\\" onclick=\\\"doHelp()\\\" data-i18n=\\\"cf_yes\\\"></button><button class=\\\"sec\\\" onclick=\\\"show('help')\\\" data-i18n=\\\"cf_no\\\"></button></div></div><script src=\\\"https://careflown8n.app.n8n.cloud/webhook/careflow/app.js\\\"></script></body></html>\";\nreturn [{ json: { html } }];"
+      },
+      "id": "177ef1cc-18f5-49e7-b811-400f1be6b7cb",
+      "name": "Pagina samenstellen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "id": "b1eb2d75-9297-4437-969d-5c1d7b12da45",
+      "name": "Pagina versturen",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "careflow/register",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "63ec1bf1-dad6-4e1e-b548-56d5e4715e5f",
+      "name": "Webhook registreren",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        320
+      ],
+      "webhookId": "8a24a7ce-7201-45b4-89ee-13eae1c53f0e"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "keyValue": "={{ ($json.body.email || \"\").toLowerCase().trim() }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "072c494d-07fd-4ab1-9922-3e118432f291",
+      "name": "Bestaand e-mailadres zoeken",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        320
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $('Webhook registreren').first().json.body || {};\nconst existing = $input.first().json || {};\nconst dup = !!(existing && existing.email);\nfunction rnd(){ return Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2); }\nconst salt = rnd();\nconst session_id = 'u_' + Date.now().toString(36) + '_' + rnd().slice(0,6);\nconst token = rnd() + rnd();\nreturn [{ json: {\n  duplicate: dup,\n  email: String(body.email || '').toLowerCase().trim(),\n  password: String(body.password || ''),\n  salt: salt,\n  session_id: session_id,\n  token: token\n} }];"
+      },
+      "id": "c7754ffb-727f-43ab-a2c6-94b80cf7655f",
+      "name": "Account voorbereiden",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "dup",
+              "leftValue": "={{ $json.duplicate }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "35d5b6f2-58b6-47af-8b35-88d74cdf5ce0",
+      "name": "Bestaat al?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, error: 'email_exists', message: 'Dit e-mailadres is al geregistreerd. Log in of gebruik een ander adres.' } }];"
+      },
+      "id": "f25a314e-9fdb-479c-af21-a94c663b2da8",
+      "name": "Antwoord: e-mail bestaat",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "14c102cc-dd8a-4778-be8d-93afe8882cd8",
+      "name": "Versturen (register dup)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "type": "SHA512",
+        "value": "={{ $json.password }}{{ $json.salt }}",
+        "dataPropertyName": "password_hash"
+      },
+      "id": "c9bf5dea-120a-44a2-b420-a110c7c4f185",
+      "name": "Wachtwoord hashen",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        896,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "password_hash",
+              "displayName": "password_hash",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "password_salt",
+              "displayName": "password_salt",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "session_token",
+              "displayName": "session_token",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "onboarding_step",
+              "displayName": "onboarding_step",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "onboarding_complete",
+              "displayName": "onboarding_complete",
+              "type": "boolean",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "created_date",
+              "displayName": "created_date",
+              "type": "date",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            }
+          ],
+          "value": {
+            "session_id": "={{ $json.session_id }}",
+            "email": "={{ $json.email }}",
+            "password_hash": "={{ $json.password_hash }}",
+            "password_salt": "={{ $json.salt }}",
+            "session_token": "={{ $json.token }}",
+            "onboarding_step": "profiel",
+            "onboarding_complete": false,
+            "created_date": "={{ $now.toISO() }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "504e95e3-edad-46ba-9590-1964df724cee",
+      "name": "Account opslaan",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const p = $('Account voorbereiden').first().json;\nreturn [{ json: { ok: true, token: p.token, session_id: p.session_id, onboarding_complete: false } }];"
+      },
+      "id": "cbd8c151-d300-4220-a715-a0540dc2e272",
+      "name": "Antwoord: account klaar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "41250b3f-371e-4327-97ef-9eb487b28d4e",
+      "name": "Versturen (register ok)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1568,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "careflow/login",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "6eac4609-1f96-47e6-8014-a051244de856",
+      "name": "Webhook inloggen",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        640
+      ],
+      "webhookId": "f62ac829-cc5f-44ab-b02d-50ea846c0339"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "keyValue": "={{ ($json.body.email || \"\").toLowerCase().trim() }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "f1346362-577e-4ee7-97e1-a5aa6ac1d06b",
+      "name": "Gebruiker zoeken (login)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        640
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "type": "SHA512",
+        "value": "={{ $('Webhook inloggen').item.json.body.password }}{{ $json.password_salt }}",
+        "dataPropertyName": "check_hash"
+      },
+      "id": "551336a4-9048-4030-a3d1-45090da5b161",
+      "name": "Wachtwoord controleren",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        448,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const row = $input.first().json || {};\nconst ok = !!(row.email && row.password_hash && row.check_hash && row.password_hash === row.check_hash);\nif(!ok) return [{ json: { ok: false, error: 'invalid', message: 'E-mailadres of wachtwoord onjuist.' } }];\nreturn [{ json: {\n  ok: true,\n  token: row.session_token,\n  session_id: row.session_id,\n  name: row.name || '',\n  onboarding_complete: (row.onboarding_complete === true || row.onboarding_complete === 'true')\n} }];"
+      },
+      "id": "7c3b2aff-2e5d-41a1-89c7-15beff264b00",
+      "name": "Login beoordelen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "69898ac2-9a6f-466a-ad7c-8d658c1e9920",
+      "name": "Versturen (login)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        896,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "careflow/me",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "08548de4-002d-4b6b-9dc0-cf82a59e3112",
+      "name": "Webhook mijn gegevens",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        864
+      ],
+      "webhookId": "03c0368b-bfaf-47e6-9a5b-a677cdba2e1f"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_token",
+              "keyValue": "={{ $json.body.token }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "4a68fc4e-67d1-48d6-9799-22aa0afb6143",
+      "name": "Gebruiker via token (me)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        864
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "XVl3jOEAPADaoRA9",
+          "cachedResultName": "careflow_logs"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $json.session_id }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "id": "1895ce60-8612-43ae-ace6-d9d37396e7c0",
+      "name": "Check-ins ophalen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        864
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const user = $('Gebruiker via token (me)').first().json || {};\nif(!user.session_id){ return [{ json: { ok: false, error: 'auth' } }]; }\nconst logs = $input.all().map(function(i){ return i.json; }).filter(function(l){ return l && l.session_id === user.session_id; });\nconst today = new Date().toISOString().slice(0,10);\nconst todayLogs = logs.filter(function(l){ return (l.log_date || '') === today; });\nreturn [{ json: {\n  ok: true,\n  profile: {\n    name: user.name || '', age: user.age || '', weight: user.weight || '', address: user.address || '',\n    language: user.language || 'Nederlands',\n    medications: user.medications || '', wake_time: user.wake_time || '', sleep_time: user.sleep_time || '',\n    reminders_per_day: user.reminders_per_day || 2,\n    contact1_name: user.contact1_name || '', contact1_relationship: user.contact1_relationship || '', contact1_contact: user.contact1_contact || '',\n    contact2_name: user.contact2_name || '', contact2_relationship: user.contact2_relationship || '', contact2_contact: user.contact2_contact || '',\n    gp_name: user.gp_name || '', gp_practice: user.gp_practice || '', gp_contact: user.gp_contact || '',\n    consent_store: user.consent_store, consent_gp: user.consent_gp,\n    onboarding_complete: (user.onboarding_complete === true || user.onboarding_complete === 'true')\n  },\n  checkins: todayLogs,\n  recent: logs.slice(-20)\n} }];"
+      },
+      "id": "63f68f53-a36e-4098-801b-f6ca3dfef949",
+      "name": "Dashboard samenstellen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        864
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5cdf310c-f615-4409-afb8-61f0a8504efc",
+      "name": "Versturen (me)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        896,
+        864
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "careflow/profile",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "7e95aaec-c216-4fe9-9ebe-0afa3fada501",
+      "name": "Webhook profiel",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        1088
+      ],
+      "webhookId": "d3b4df79-a99f-4d0a-9d9e-7c7cd8e3a7a5"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_token",
+              "keyValue": "={{ $json.body.token }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "56a9020d-ef9c-4d37-a926-b8393ff0d458",
+      "name": "Gebruiker via token (profiel)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        1088
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Gebruiker via token (profiel)').item.json.session_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "session_id"
+          ],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "age",
+              "displayName": "age",
+              "type": "number",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "weight",
+              "displayName": "weight",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "medications",
+              "displayName": "medications",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "wake_time",
+              "displayName": "wake_time",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "sleep_time",
+              "displayName": "sleep_time",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "contact1_name",
+              "displayName": "contact1_name",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "contact1_relationship",
+              "displayName": "contact1_relationship",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "contact1_contact",
+              "displayName": "contact1_contact",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "contact2_name",
+              "displayName": "contact2_name",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "contact2_relationship",
+              "displayName": "contact2_relationship",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "contact2_contact",
+              "displayName": "contact2_contact",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "gp_name",
+              "displayName": "gp_name",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "gp_practice",
+              "displayName": "gp_practice",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "gp_contact",
+              "displayName": "gp_contact",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "consent_store",
+              "displayName": "consent_store",
+              "type": "boolean",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "consent_gp",
+              "displayName": "consent_gp",
+              "type": "boolean",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "onboarding_step",
+              "displayName": "onboarding_step",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "onboarding_complete",
+              "displayName": "onboarding_complete",
+              "type": "boolean",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            }
+          ],
+          "value": {
+            "name": "={{ $('Webhook profiel').item.json.body.name }}",
+            "age": "={{ $('Webhook profiel').item.json.body.age ? Number($('Webhook profiel').item.json.body.age) : null }}",
+            "weight": "={{ $('Webhook profiel').item.json.body.weight }}",
+            "address": "={{ $('Webhook profiel').item.json.body.address }}",
+            "medications": "={{ $('Webhook profiel').item.json.body.medications }}",
+            "wake_time": "={{ $('Webhook profiel').item.json.body.wake_time }}",
+            "sleep_time": "={{ $('Webhook profiel').item.json.body.sleep_time }}",
+            "contact1_name": "={{ $('Webhook profiel').item.json.body.contact1_name }}",
+            "contact1_relationship": "={{ $('Webhook profiel').item.json.body.contact1_relationship }}",
+            "contact1_contact": "={{ $('Webhook profiel').item.json.body.contact1_contact }}",
+            "contact2_name": "={{ $('Webhook profiel').item.json.body.contact2_name }}",
+            "contact2_relationship": "={{ $('Webhook profiel').item.json.body.contact2_relationship }}",
+            "contact2_contact": "={{ $('Webhook profiel').item.json.body.contact2_contact }}",
+            "gp_name": "={{ $('Webhook profiel').item.json.body.gp_name }}",
+            "gp_practice": "={{ $('Webhook profiel').item.json.body.gp_practice }}",
+            "gp_contact": "={{ $('Webhook profiel').item.json.body.gp_contact }}",
+            "consent_store": "={{ $('Webhook profiel').item.json.body.consent_store === true || $('Webhook profiel').item.json.body.consent_store === 'true' }}",
+            "consent_gp": "={{ $('Webhook profiel').item.json.body.consent_gp === true || $('Webhook profiel').item.json.body.consent_gp === 'true' }}",
+            "onboarding_step": "klaar",
+            "onboarding_complete": true,
+            "language": "={{ $('Webhook profiel').item.json.body.language }}",
+            "reminders_per_day": "={{ Number($('Webhook profiel').item.json.body.reminders_per_day || 2) }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "d4248a42-7b57-4448-b875-74f6c9d19514",
+      "name": "Profiel bijwerken",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        1088
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const user = $('Gebruiker via token (profiel)').first().json || {};\nif(!user.session_id){ return [{ json: { ok: false, error: 'auth', message: 'Uw sessie is verlopen. Log opnieuw in.' } }]; }\nreturn [{ json: { ok: true, message: 'Uw gegevens zijn opgeslagen.' } }];"
+      },
+      "id": "62babde0-73e4-4bd9-83c7-a253fea431c6",
+      "name": "Antwoord (profiel)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        1088
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5612153b-634f-4c48-8ae7-8369accda35e",
+      "name": "Versturen (profiel)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        896,
+        1088
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "careflow/checkin",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "6f7fa652-4bc2-4161-922e-2a1f0533cfe4",
+      "name": "Webhook check-in",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        1408
+      ],
+      "webhookId": "c8077b43-4604-4d6d-aab7-dc0d8c787338"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_token",
+              "keyValue": "={{ $json.body.token }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "994a9efe-8b67-4efe-9d03-c3c537374833",
+      "name": "Gebruiker via token (check-in)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        1408
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const user = $('Gebruiker via token (check-in)').first().json || {};\nconst body = $('Webhook check-in').first().json.body || {};\nif(!user.session_id){ return [{ json: { ok: false } }]; }\nconst now = new Date();\nconst period = body.period || 'ochtend';\nconst wb = (body.wellbeing !== undefined && body.wellbeing !== null && body.wellbeing !== '') ? String(body.wellbeing) : '';\nconst med = body.medication_taken ? String(body.medication_taken) : '';\nconst text = String(body.text || '').trim();\nconst score = parseInt(wb, 10);\nlet aiRaw = '';\ntry { const ai = $('AI gezondheidscheck').first().json || {}; aiRaw = ai.content || ai.text || ai.output || ai.response || (ai.message && ai.message.content) || ''; if (typeof aiRaw !== 'string') { aiRaw = JSON.stringify(aiRaw); } } catch (e) { aiRaw = ''; }\nconst aiUp = String(aiRaw).toUpperCase();\nlet aiLevel = 'NORMAAL';\nif (text) { if (aiUp.indexOf('URGENT') > -1) { aiLevel = 'URGENT'; } else if (aiUp.indexOf('AANDACHT') > -1 || aiUp.indexOf('ATTENTION') > -1) { aiLevel = 'AANDACHT'; } }\nconst low = text.toLowerCase();\nconst urg = ['pijn op de borst','benauwd','ademnood','geen adem','niet ademen','gevallen','beroerte','flauwgevallen','bloed','hartkloppingen'];\nfor (const w of urg) { if (low.indexOf(w) > -1) { aiLevel = 'URGENT'; break; } }\nlet concern = 'NORMAAL';\nif (!isNaN(score) && score <= 2) { concern = 'AANDACHT'; }\nif (med === 'nee') { concern = 'AANDACHT'; }\nif (aiLevel === 'AANDACHT') { concern = 'AANDACHT'; }\nif (aiLevel === 'URGENT') { concern = 'URGENT'; }\nreturn [{ json: { ok: true, session_id: user.session_id, log_date: now.toISOString().slice(0,10), log_time: now.toISOString().slice(11,16), period: period, wellbeing: wb, medication_taken: med, symptoms: text, possible_concern: '', concern_level: concern, urgency: (concern === 'URGENT') ? 'hoog' : ((concern === 'AANDACHT') ? 'midden' : 'laag'), follow_up_needed: (concern === 'NORMAAL') ? 'nee' : 'ja', ai_summary: aiRaw ? ('AI: ' + String(aiRaw)).slice(0,200) : '' } }];"
+      },
+      "id": "400649a2-b6ea-4446-9989-697ab903463c",
+      "name": "Check-in voorbereiden",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        1408
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "ok",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "34b11a03-4a2e-4800-9416-c025977b30a5",
+      "name": "Check-in geldig?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        1408
+      ]
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "XVl3jOEAPADaoRA9",
+          "cachedResultName": "careflow_logs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "log_date",
+              "displayName": "log_date",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "log_time",
+              "displayName": "log_time",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "period",
+              "displayName": "period",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "medication_taken",
+              "displayName": "medication_taken",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "wellbeing",
+              "displayName": "wellbeing",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "symptoms",
+              "displayName": "symptoms",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "possible_concern",
+              "displayName": "possible_concern",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "concern_level",
+              "displayName": "concern_level",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "urgency",
+              "displayName": "urgency",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "follow_up_needed",
+              "displayName": "follow_up_needed",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "ai_summary",
+              "displayName": "ai_summary",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            }
+          ],
+          "value": {
+            "session_id": "={{ $json.session_id }}",
+            "log_date": "={{ $json.log_date }}",
+            "log_time": "={{ $json.log_time }}",
+            "period": "={{ $json.period }}",
+            "medication_taken": "={{ $json.medication_taken }}",
+            "wellbeing": "={{ $json.wellbeing }}",
+            "symptoms": "={{ $json.symptoms }}",
+            "possible_concern": "={{ $json.possible_concern }}",
+            "concern_level": "={{ $json.concern_level }}",
+            "urgency": "={{ $json.urgency }}",
+            "follow_up_needed": "={{ $json.follow_up_needed }}",
+            "ai_summary": "={{ $json.ai_summary }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "ed5c618e-7378-4ae6-9b4c-d7ae7f6e81c1",
+      "name": "Check-in loggen",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        896,
+        1312
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const p = $('Check-in voorbereiden').first().json;\nreturn [{ json: { ok: true, message: 'Uw check-in is opgeslagen.', concern_level: p.concern_level } }];"
+      },
+      "id": "a522f8d0-cf5a-416f-bd94-6cae9bfd8f3f",
+      "name": "Antwoord (check-in ok)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        1312
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8d506958-dee6-4abd-821c-9cf7c3d33b77",
+      "name": "Versturen (check-in ok)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1344,
+        1312
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, message: 'Uw sessie is verlopen. Log opnieuw in.' } }];"
+      },
+      "id": "23c02046-54b2-4908-aef5-a7297cca3385",
+      "name": "Antwoord (check-in mislukt)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        1504
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f399da15-2658-43b5-8d94-ce7862a52bc5",
+      "name": "Versturen (check-in mislukt)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        1504
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "careflow/help",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "e20deb5c-2759-4fea-817b-f076b0184402",
+      "name": "Webhook hulp",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        1824
+      ],
+      "webhookId": "f44f1dba-2f46-4a26-9aff-706f7c693b31"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9RvJuIRrFTt1Gl0I",
+          "cachedResultName": "careflow_users"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_token",
+              "keyValue": "={{ $json.body.token }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "e77db9a6-8038-45eb-bf89-3e3f32fcb6e0",
+      "name": "Gebruiker via token (hulp)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        1824
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const user = $('Gebruiker via token (hulp)').first().json || {};\nconst body = $('Webhook hulp').first().json.body || {};\nif(!user.session_id){ return [{ json: { ok: false } }]; }\nconst to = [];\nif(user.contact1_contact){ to.push(String(user.contact1_contact).trim()); }\nif(user.contact2_contact){ to.push(String(user.contact2_contact).trim()); }\nconst gpOk = (user.consent_gp === true || user.consent_gp === 'true');\nif(gpOk && user.gp_contact && String(user.gp_contact).indexOf('@') > -1){ to.push(String(user.gp_contact).trim()); }\nconst now = new Date();\nreturn [{ json: {\n  ok: true,\n  session_id: user.session_id,\n  event_type: 'HELP',\n  event_time: now.toISOString(),\n  detail: body.message || 'Gebruiker heeft om hulp gevraagd via de website.',\n  notified_contact: to.join(', '),\n  to_list: to.join(','),\n  has_contacts: to.length > 0,\n  resolved: false,\n  contact_name: user.contact1_name || '',\n  user_name: user.name || '',\n  user_address: user.address || '',\n  user_language: user.language || 'Nederlands'\n} }];"
+      },
+      "id": "49be50c9-4ed7-4d09-9894-9964a7eb56f8",
+      "name": "Hulp voorbereiden",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        1824
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "ok",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9c798429-4d33-4dd8-8c5a-64c3c856c188",
+      "name": "Hulp geldig?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        1824
+      ]
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "cAF1v5hkcxcqB1Ds",
+          "cachedResultName": "careflow_emergencies"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "event_type",
+              "displayName": "event_type",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "event_time",
+              "displayName": "event_time",
+              "type": "date",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "detail",
+              "displayName": "detail",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "notified_contact",
+              "displayName": "notified_contact",
+              "type": "string",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "resolved",
+              "displayName": "resolved",
+              "type": "boolean",
+              "required": false,
+              "display": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            }
+          ],
+          "value": {
+            "session_id": "={{ $json.session_id }}",
+            "event_type": "={{ $json.event_type }}",
+            "event_time": "={{ $json.event_time }}",
+            "detail": "={{ $json.detail }}",
+            "notified_contact": "={{ $json.notified_contact }}",
+            "resolved": "={{ $json.resolved }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "2e76c804-d48d-4303-bb00-f2b2e512f19d",
+      "name": "Noodgebeurtenis opslaan",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        896,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Hulp voorbereiden').item.json.to_list }}",
+        "subject": "={{ 'CareFlow: ' + $('Hulp voorbereiden').item.json.user_name + ' vraagt om hulp' }}",
+        "emailType": "text",
+        "message": "={{ 'Beste,\\n\\n' + $('Hulp voorbereiden').item.json.user_name + ' heeft zojuist op de hulpknop in CareFlow gedrukt.\\n\\nAdres: ' + ($('Hulp voorbereiden').item.json.user_address || 'onbekend') + '\\nVoorkeurstaal: ' + $('Hulp voorbereiden').item.json.user_language + '\\nTijd: ' + $('Hulp voorbereiden').item.json.event_time + '\\n\\nNeem alstublieft contact op. Is er direct gevaar? Bel zelf 112.\\n\\nDit is een automatisch bericht van CareFlow, een studentenproject. CareFlow belt zelf geen 112, politie of huisarts.' }}",
+        "options": {}
+      },
+      "id": "fd69f668-be48-4e7b-8b0f-bda00875421b",
+      "name": "Contactpersoon mailen",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        1728
+      ],
+      "webhookId": "0e754c33-cb69-48b3-9d5b-aff858be03be",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QPEcmMTaCkLASki8",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const p = $('Hulp voorbereiden').first().json;\nconst msg = p.has_contacts\n  ? 'Uw contactpersonen zijn gewaarschuwd. Is er direct gevaar? Bel zelf 112.'\n  : 'Uw hulpverzoek is genoteerd, maar er is nog geen contactpersoon ingesteld. Is er direct gevaar? Bel zelf 112.';\nreturn [{ json: { ok: true, message: msg } }];"
+      },
+      "id": "29aa1cae-f104-4761-a1a3-17189462f5b3",
+      "name": "Antwoord (hulp ok)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "09c25275-bd1f-47ef-be79-3858ac495e14",
+      "name": "Versturen (hulp ok)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1568,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, message: 'Uw sessie is verlopen. Log opnieuw in.' } }];"
+      },
+      "id": "d7a9696a-a239-41f2-a446-9ab540ef343f",
+      "name": "Antwoord (hulp mislukt)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9fc92eda-8757-44cf-8e21-f0748ea1cfb2",
+      "name": "Versturen (hulp mislukt)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "cachedResultName": "careflow_reminders",
+          "mode": "id",
+          "value": "5n58Gk7dIpuPuWwt"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Check-in voorbereiden').item.json.session_id }}"
+            },
+            {
+              "keyName": "check_type",
+              "keyValue": "={{ $('Check-in voorbereiden').item.json.period }}"
+            },
+            {
+              "keyName": "status",
+              "keyValue": "open"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "session_id"
+          ],
+          "schema": [
+            {
+              "canBeUsedToMatch": false,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "status",
+              "id": "status",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": false,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "last_response_at",
+              "id": "last_response_at",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "value": {
+            "last_response_at": "={{ $now.toISO() }}",
+            "status": "beantwoord"
+          }
+        },
+        "options": {}
+      },
+      "id": "ff1297ca-651b-4378-9d18-76158336bbbc",
+      "name": "Herinnering afvinken",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        1184
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "cachedResultName": "gpt-5-mini",
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Je bent een triage-classifier voor een Nederlandse welzijns-app voor mensen van 65 jaar en ouder. Je krijgt een vrij-tekstbericht over hoe de gebruiker zich voelt. Antwoord met EXACT één woord, in hoofdletters: NORMAAL, AANDACHT of URGENT. URGENT = acute nood (pijn op de borst, benauwd/ademnood, gevallen, beroerte, flauwgevallen, hevig bloedverlies, ernstige hartkloppingen). AANDACHT = zorgelijk maar niet acuut (duizelig, koorts, veel pijn, verward, somber, misselijk). NORMAAL = geen zorg. Geef uitsluitend dat ene woord, geen uitleg."
+            },
+            {
+              "content": "={{ ($('Webhook check-in').item.json.body.text || '').toString().trim() || 'geen bericht' }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "maxTokens": 250
+        }
+      },
+      "id": "401d92f2-f8ae-47a9-a39d-15823a5cbb5f",
+      "name": "AI gezondheidscheck",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        2144
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "Gateway credits",
+          "__aiGatewayManaged": true
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "path": "careflow/app.js",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ab507acf-68ee-4858-bb3b-ddbbb91b0327",
+      "name": "Webhook app-script",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        2560
+      ],
+      "webhookId": "3d11b099-fbd5-49eb-88e1-24814dd8457b"
+    },
+    {
+      "parameters": {
+        "jsCode": "const js = \"var API=\\\"https://careflown8n.app.n8n.cloud/webhook/careflow\\\";var MEM={token:\\\"\\\",lang:\\\"\\\"};var T={};\\nT.nl={d_demo:\\\"Demo-melding\\\",notif_title:\\\"CareFlow-herinnering\\\",notif_body:\\\"Tijd voor uw medicijnen. Vergeet uw dagelijkse check-in niet.\\\",notif_blocked:\\\"Meldingen staan uit. Zet ze aan in uw browser om dit te testen.\\\",notif_unsupported:\\\"Uw browser ondersteunt geen meldingen.\\\",sub:\\\"Rustige, dagelijkse ondersteuning thuis\\\",w_title:\\\"Welkom bij CareFlow\\\",w_intro:\\\"CareFlow helpt u met een vast dagritme: herinneringen voor uw medicijnen en een korte vraag hoe het met u gaat.\\\",b_login:\\\"Inloggen\\\",b_register:\\\"Nieuw account aanmaken\\\",w_disc:\\\"CareFlow is een studentenproject en geen medisch hulpmiddel. CareFlow belt zelf nooit 112, de politie of de huisarts. Bel bij nood altijd zelf 112.\\\",r_title:\\\"Account aanmaken\\\",l_title:\\\"Inloggen\\\",f_email:\\\"E-mailadres\\\",f_pw:\\\"Wachtwoord (minimaal 6 tekens)\\\",f_pw2:\\\"Herhaal wachtwoord\\\",f_pw_login:\\\"Wachtwoord\\\",b_create:\\\"Account aanmaken\\\",b_back:\\\"Terug\\\",q_title:\\\"Uw gegevens\\\",q_step:\\\"Stap {n} van 4\\\",q_about:\\\"Over uzelf\\\",f_name:\\\"Uw naam\\\",f_age:\\\"Leeftijd\\\",f_weight:\\\"Gewicht (optioneel)\\\",f_address:\\\"Adres\\\",f_lang:\\\"Voorkeurstaal\\\",q_lang_note:\\\"U kunt de taal bovenaan altijd wijzigen.\\\",q_health:\\\"Medicijnen en dagritme\\\",f_meds:\\\"Welke medicijnen gebruikt u en hoe vaak?\\\",f_wake:\\\"Hoe laat wordt u wakker?\\\",f_sleep:\\\"Hoe laat gaat u slapen?\\\",f_rem:\\\"Hoeveel herinneringen per dag wilt u?\\\",o_r1:\\\"1 - alleen 's ochtends\\\",o_r2:\\\"2 - ochtend en avond\\\",o_r3:\\\"3 - ochtend, middag en avond\\\",q_contacts:\\\"Contactpersonen bij nood\\\",q_contacts_note:\\\"Deze mensen krijgen een e-mail als u op de hulpknop drukt of als u niet reageert.\\\",f_c1:\\\"Contactpersoon 1 - naam\\\",f_c2:\\\"Contactpersoon 2 - naam (optioneel)\\\",f_rel:\\\"Relatie\\\",f_cmail:\\\"E-mail\\\",q_gp:\\\"Huisarts en toestemming\\\",chk_gp:\\\"Ja, CareFlow mag mijn huisarts informeren bij zorgen.\\\",f_gpn:\\\"Naam huisarts\\\",f_gpp:\\\"Praktijk\\\",f_gpc:\\\"E-mail praktijk\\\",chk_store:\\\"Ja, CareFlow mag mijn gegevens opslaan.\\\",b_prev:\\\"Vorige\\\",b_next:\\\"Volgende\\\",b_check:\\\"Controleren\\\",rev_title:\\\"Controleer uw gegevens\\\",b_confirm:\\\"Bevestigen en opslaan\\\",b_edit:\\\"Nog iets wijzigen\\\",d_hi:\\\"Goededag\\\",d_today:\\\"Vandaag\\\",d_morning:\\\"Ochtend-check\\\",d_evening:\\\"Avond-check\\\",d_card:\\\"Mijn zorgkaart\\\",b_help:\\\"HULP nodig\\\",b_editprofile:\\\"Gegevens wijzigen\\\",b_logout:\\\"Uitloggen\\\",ck_done:\\\"Voltooid \\\\u2713\\\",ck_notyet:\\\"Nog niet\\\",d_medrem:\\\"Vergeet uw medicijnen niet in te nemen.\\\",c_note:\\\"Laat dit scherm zien aan de huisarts of ambulance als dat nodig is.\\\",b_back_today:\\\"Terug naar vandaag\\\",chk_med_q:\\\"Heeft u uw medicatie ingenomen?\\\",chk_score_q_m:\\\"Hoe voelt u zich vandaag?\\\",chk_score_q_e:\\\"Hoe voelt u zich vanavond?\\\",sc1:\\\"Heel slecht\\\",sc2:\\\"Slecht\\\",sc3:\\\"Gaat wel\\\",sc4:\\\"Goed\\\",sc5:\\\"Heel goed\\\",chk_text_q:\\\"Wilt u kort vertellen hoe u zich voelt?\\\",chk_text_q1:\\\"Wilt u kort vertellen wat er aan de hand is?\\\",s1_confirm_q:\\\"U heeft aangegeven dat u zich heel slecht voelt. Klopt dat?\\\",s1_yes:\\\"Ja, dat klopt\\\",s1_adjust:\\\"Nee, aanpassen\\\",s1_help_q:\\\"Heeft u direct hulp nodig?\\\",s1_help_yes:\\\"Ja, ik heb hulp nodig\\\",s1_help_no:\\\"Nee\\\",chk_done_m:\\\"Bedankt. Uw ochtendcontrole is opgeslagen. \\\\u2713\\\",chk_done_e:\\\"Bedankt. Uw avondcontrole is opgeslagen. \\\\u2713\\\",reply_attention:\\\"Het lijkt vandaag wat minder te gaan. Gebruik gerust de HULP-knop als dat nodig is.\\\",reply_urgent:\\\"Dit klinkt ernstig. Bel bij direct gevaar zelf 112. Gebruik de HULP-knop als u wilt dat wij uw contactpersonen waarschuwen.\\\",yes:\\\"Ja\\\",no:\\\"Nee\\\",b_send:\\\"Versturen\\\",h_title:\\\"Hulp nodig\\\",h_danger:\\\"Is er direct gevaar? Bel zelf 112.\\\",h_call:\\\"112 bellen\\\",h_note:\\\"CareFlow belt zelf geen 112, politie of ambulance. Dat moet u of iemand in uw omgeving doen.\\\",h_q:\\\"Wilt u dat CareFlow uw contactpersonen waarschuwt?\\\",h_yes:\\\"Ja, waarschuw mijn contactpersonen\\\",h_no:\\\"Nee, terug\\\",cf_title:\\\"Weet u het zeker?\\\",cf_text:\\\"Uw contactpersonen krijgen nu direct een e-mail dat u hulp kunt gebruiken.\\\",cf_yes:\\\"Ja, verstuur nu\\\",cf_no:\\\"Nee, annuleren\\\",msg_fill:\\\"Vul uw e-mailadres en wachtwoord in.\\\",msg_pw6:\\\"Kies een wachtwoord van minimaal 6 tekens.\\\",msg_pwmatch:\\\"De wachtwoorden zijn niet gelijk.\\\",msg_busy:\\\"Een moment...\\\",msg_email_exists:\\\"Dit e-mailadres is al geregistreerd. Log in of gebruik een ander adres.\\\",msg_login_invalid:\\\"E-mailadres of wachtwoord onjuist.\\\",msg_session:\\\"Uw sessie is verlopen. Log opnieuw in.\\\",msg_conn:\\\"Verbinding mislukt. Probeer het opnieuw.\\\",msg_name_req:\\\"Vul uw naam in.\\\",msg_c1_req:\\\"Vul het e-mailadres van contactpersoon 1 in.\\\",msg_pickone:\\\"Maak eerst een keuze.\\\",msg_helpsent:\\\"Uw contactpersonen zijn gewaarschuwd. Is er direct gevaar? Bel zelf 112.\\\",msg_helpfail:\\\"Er ging iets mis. Bel bij nood zelf 112.\\\"};\\nT.en={d_demo:\\\"Demo notification\\\",notif_title:\\\"CareFlow reminder\\\",notif_body:\\\"Time for your medication. Don't forget your daily check-in.\\\",notif_blocked:\\\"Notifications are off. Enable them in your browser to test this.\\\",notif_unsupported:\\\"Your browser does not support notifications.\\\",sub:\\\"Calm, everyday support at home\\\",w_title:\\\"Welcome to CareFlow\\\",w_intro:\\\"CareFlow helps you keep a daily rhythm: medication reminders and a short question about how you are.\\\",b_login:\\\"Log in\\\",b_register:\\\"Create a new account\\\",w_disc:\\\"CareFlow is a student project and not a medical device. CareFlow never calls 112, the police or your doctor itself. In an emergency, always call 112 yourself.\\\",r_title:\\\"Create account\\\",l_title:\\\"Log in\\\",f_email:\\\"Email address\\\",f_pw:\\\"Password (at least 6 characters)\\\",f_pw2:\\\"Repeat password\\\",f_pw_login:\\\"Password\\\",b_create:\\\"Create account\\\",b_back:\\\"Back\\\",q_title:\\\"Your details\\\",q_step:\\\"Step {n} of 4\\\",q_about:\\\"About you\\\",f_name:\\\"Your name\\\",f_age:\\\"Age\\\",f_weight:\\\"Weight (optional)\\\",f_address:\\\"Address\\\",f_lang:\\\"Preferred language\\\",q_lang_note:\\\"You can change the language at the top at any time.\\\",q_health:\\\"Medication and daily rhythm\\\",f_meds:\\\"Which medication do you take, and how often?\\\",f_wake:\\\"What time do you wake up?\\\",f_sleep:\\\"What time do you go to sleep?\\\",f_rem:\\\"How many reminders per day would you like?\\\",o_r1:\\\"1 - morning only\\\",o_r2:\\\"2 - morning and evening\\\",o_r3:\\\"3 - morning, afternoon and evening\\\",q_contacts:\\\"Emergency contacts\\\",q_contacts_note:\\\"These people receive an email if you press the help button or do not respond.\\\",f_c1:\\\"Contact 1 - name\\\",f_c2:\\\"Contact 2 - name (optional)\\\",f_rel:\\\"Relationship\\\",f_cmail:\\\"Email\\\",q_gp:\\\"Doctor and consent\\\",chk_gp:\\\"Yes, CareFlow may inform my doctor if there are concerns.\\\",f_gpn:\\\"Doctor's name\\\",f_gpp:\\\"Practice\\\",f_gpc:\\\"Practice email\\\",chk_store:\\\"Yes, CareFlow may store my details.\\\",b_prev:\\\"Previous\\\",b_next:\\\"Next\\\",b_check:\\\"Review\\\",rev_title:\\\"Check your details\\\",b_confirm:\\\"Confirm and save\\\",b_edit:\\\"Change something\\\",d_hi:\\\"Hello\\\",d_today:\\\"Today\\\",d_morning:\\\"Morning check\\\",d_evening:\\\"Evening check\\\",d_card:\\\"My care card\\\",b_help:\\\"I need HELP\\\",b_editprofile:\\\"Edit my details\\\",b_logout:\\\"Log out\\\",ck_done:\\\"Completed \\\\u2713\\\",ck_notyet:\\\"Not yet\\\",d_medrem:\\\"Please remember to take your medication.\\\",c_note:\\\"Show this screen to your doctor or the ambulance if needed.\\\",b_back_today:\\\"Back to today\\\",chk_med_q:\\\"Did you take your medication?\\\",chk_score_q_m:\\\"How do you feel today?\\\",chk_score_q_e:\\\"How do you feel this evening?\\\",sc1:\\\"Very bad\\\",sc2:\\\"Bad\\\",sc3:\\\"Okay\\\",sc4:\\\"Good\\\",sc5:\\\"Very good\\\",chk_text_q:\\\"Would you like to briefly tell us how you feel?\\\",chk_text_q1:\\\"Would you like to briefly tell us what is going on?\\\",s1_confirm_q:\\\"You indicated that you feel very bad. Is that correct?\\\",s1_yes:\\\"Yes, that's right\\\",s1_adjust:\\\"No, change it\\\",s1_help_q:\\\"Do you need help right now?\\\",s1_help_yes:\\\"Yes, I need help\\\",s1_help_no:\\\"No\\\",chk_done_m:\\\"Thank you. Your morning check has been saved. \\\\u2713\\\",chk_done_e:\\\"Thank you. Your evening check has been saved. \\\\u2713\\\",reply_attention:\\\"It seems today is a harder day. Feel free to use the HELP button if needed.\\\",reply_urgent:\\\"This sounds serious. In immediate danger, call 112 yourself. Use the HELP button if you want us to alert your contacts.\\\",yes:\\\"Yes\\\",no:\\\"No\\\",b_send:\\\"Send\\\",h_title:\\\"Need help\\\",h_danger:\\\"Immediate danger? Call 112 yourself.\\\",h_call:\\\"Call 112\\\",h_note:\\\"CareFlow does not call 112, the police or an ambulance itself. You or someone near you must do that.\\\",h_q:\\\"Would you like CareFlow to alert your contacts?\\\",h_yes:\\\"Yes, alert my contacts\\\",h_no:\\\"No, go back\\\",cf_title:\\\"Are you sure?\\\",cf_text:\\\"Your contacts will now receive an email that you could use help.\\\",cf_yes:\\\"Yes, send now\\\",cf_no:\\\"No, cancel\\\",msg_fill:\\\"Please enter your email address and password.\\\",msg_pw6:\\\"Choose a password of at least 6 characters.\\\",msg_pwmatch:\\\"The passwords do not match.\\\",msg_busy:\\\"One moment...\\\",msg_email_exists:\\\"This email address is already registered. Log in or use another address.\\\",msg_login_invalid:\\\"Email address or password is incorrect.\\\",msg_session:\\\"Your session has expired. Please log in again.\\\",msg_conn:\\\"Connection failed. Please try again.\\\",msg_name_req:\\\"Please enter your name.\\\",msg_c1_req:\\\"Please enter the email address of contact 1.\\\",msg_pickone:\\\"Please make a choice first.\\\",msg_helpsent:\\\"Your contacts have been alerted. Immediate danger? Call 112 yourself.\\\",msg_helpfail:\\\"Something went wrong. In an emergency, call 112 yourself.\\\"};\\nT.tr={d_demo:\\\"Demo bildirimi\\\",notif_title:\\\"CareFlow hatirlatmasi\\\",notif_body:\\\"Ilac zamaniniz. Gunluk kontrolunuzu unutmayin.\\\",notif_blocked:\\\"Bildirimler kapali. Test etmek icin tarayicinizdan acin.\\\",notif_unsupported:\\\"Tarayiciniz bildirimleri desteklemiyor.\\\",sub:\\\"Evde sakin, gunluk destek\\\",w_title:\\\"CareFlow'a hos geldiniz\\\",w_intro:\\\"CareFlow gunluk duzeninizi korumaniza yardim eder: ilac hatirlatmalari ve nasil oldugunuza dair kisa bir soru.\\\",b_login:\\\"Giris yap\\\",b_register:\\\"Yeni hesap olustur\\\",w_disc:\\\"CareFlow bir ogrenci projesidir ve tibbi cihaz degildir. CareFlow kendisi asla 112'yi, polisi veya doktoru aramaz. Acil durumda her zaman kendiniz 112'yi arayin.\\\",r_title:\\\"Hesap olustur\\\",l_title:\\\"Giris yap\\\",f_email:\\\"E-posta adresi\\\",f_pw:\\\"Sifre (en az 6 karakter)\\\",f_pw2:\\\"Sifreyi tekrarlayin\\\",f_pw_login:\\\"Sifre\\\",b_create:\\\"Hesap olustur\\\",b_back:\\\"Geri\\\",q_title:\\\"Bilgileriniz\\\",q_step:\\\"Adim {n} / 4\\\",q_about:\\\"Kendiniz hakkinda\\\",f_name:\\\"Adiniz\\\",f_age:\\\"Yas\\\",f_weight:\\\"Kilo (istege bagli)\\\",f_address:\\\"Adres\\\",f_lang:\\\"Tercih ettiginiz dil\\\",q_lang_note:\\\"Dili yukaridan istediginiz zaman degistirebilirsiniz.\\\",q_health:\\\"Ilaclar ve gunluk duzen\\\",f_meds:\\\"Hangi ilaclari ne siklikla kullaniyorsunuz?\\\",f_wake:\\\"Saat kacta uyaniyorsunuz?\\\",f_sleep:\\\"Saat kacta uyuyorsunuz?\\\",f_rem:\\\"Gunde kac hatirlatma istersiniz?\\\",o_r1:\\\"1 - sadece sabah\\\",o_r2:\\\"2 - sabah ve aksam\\\",o_r3:\\\"3 - sabah, ogle ve aksam\\\",q_contacts:\\\"Acil durum kisileri\\\",q_contacts_note:\\\"Yardim dugmesine bastiginizda veya yanit vermediginizde bu kisilere e-posta gonderilir.\\\",f_c1:\\\"1. kisi - ad\\\",f_c2:\\\"2. kisi - ad (istege bagli)\\\",f_rel:\\\"Yakinlik\\\",f_cmail:\\\"E-posta\\\",q_gp:\\\"Aile hekimi ve izin\\\",chk_gp:\\\"Evet, endise durumunda CareFlow aile hekimimi bilgilendirebilir.\\\",f_gpn:\\\"Aile hekiminin adi\\\",f_gpp:\\\"Muayenehane\\\",f_gpc:\\\"Muayenehane e-postasi\\\",chk_store:\\\"Evet, CareFlow bilgilerimi saklayabilir.\\\",b_prev:\\\"Onceki\\\",b_next:\\\"Sonraki\\\",b_check:\\\"Kontrol et\\\",rev_title:\\\"Bilgilerinizi kontrol edin\\\",b_confirm:\\\"Onayla ve kaydet\\\",b_edit:\\\"Bir seyi degistir\\\",d_hi:\\\"Merhaba\\\",d_today:\\\"Bugun\\\",d_morning:\\\"Sabah kontrolu\\\",d_evening:\\\"Aksam kontrolu\\\",d_card:\\\"Bakim kartim\\\",b_help:\\\"YARDIM lazim\\\",b_editprofile:\\\"Bilgilerimi duzenle\\\",b_logout:\\\"Cikis yap\\\",ck_done:\\\"Tamamlandi \\\\u2713\\\",ck_notyet:\\\"Henuz degil\\\",d_medrem:\\\"Ilaclarinizi almayi unutmayin.\\\",c_note:\\\"Gerekirse bu ekrani doktora veya ambulansa gosterin.\\\",b_back_today:\\\"Bugune don\\\",chk_med_q:\\\"Ilaclarinizi aldiniz mi?\\\",chk_score_q_m:\\\"Bugun kendinizi nasil hissediyorsunuz?\\\",chk_score_q_e:\\\"Bu aksam kendinizi nasil hissediyorsunuz?\\\",sc1:\\\"Cok kotu\\\",sc2:\\\"Kotu\\\",sc3:\\\"Idare eder\\\",sc4:\\\"Iyi\\\",sc5:\\\"Cok iyi\\\",chk_text_q:\\\"Kendinizi nasil hissettiginizi kisaca anlatir misiniz?\\\",chk_text_q1:\\\"Neler oldugunu kisaca anlatir misiniz?\\\",s1_confirm_q:\\\"Kendinizi cok kotu hissettiginizi belirttiniz. Dogru mu?\\\",s1_yes:\\\"Evet, dogru\\\",s1_adjust:\\\"Hayir, degistir\\\",s1_help_q:\\\"Hemen yardima ihtiyaciniz var mi?\\\",s1_help_yes:\\\"Evet, yardima ihtiyacim var\\\",s1_help_no:\\\"Hayir\\\",chk_done_m:\\\"Tesekkurler. Sabah kontrolunuz kaydedildi. \\\\u2713\\\",chk_done_e:\\\"Tesekkurler. Aksam kontrolunuz kaydedildi. \\\\u2713\\\",reply_attention:\\\"Bugun biraz zor gibi gorunuyor. Gerekirse YARDIM dugmesini kullanin.\\\",reply_urgent:\\\"Bu ciddi gorunuyor. Acil tehlike varsa kendiniz 112'yi arayin. Kisilerinizi uyarmamizi isterseniz YARDIM dugmesini kullanin.\\\",yes:\\\"Evet\\\",no:\\\"Hayir\\\",b_send:\\\"Gonder\\\",h_title:\\\"Yardim gerekli\\\",h_danger:\\\"Acil tehlike mi var? 112'yi kendiniz arayin.\\\",h_call:\\\"112'yi ara\\\",h_note:\\\"CareFlow kendisi 112'yi, polisi veya ambulansi aramaz. Bunu siz veya yanindaki biri yapmalidir.\\\",h_q:\\\"CareFlow'un kisilerinizi uyarmasini ister misiniz?\\\",h_yes:\\\"Evet, kisilerimi uyar\\\",h_no:\\\"Hayir, geri\\\",cf_title:\\\"Emin misiniz?\\\",cf_text:\\\"Kisilerinize simdi yardima ihtiyaciniz oldugunu bildiren bir e-posta gonderilecek.\\\",cf_yes:\\\"Evet, simdi gonder\\\",cf_no:\\\"Hayir, iptal\\\",msg_fill:\\\"Lutfen e-posta adresinizi ve sifrenizi girin.\\\",msg_pw6:\\\"En az 6 karakterli bir sifre secin.\\\",msg_pwmatch:\\\"Sifreler ayni degil.\\\",msg_busy:\\\"Bir dakika...\\\",msg_email_exists:\\\"Bu e-posta adresi zaten kayitli. Giris yapin veya baska bir adres kullanin.\\\",msg_login_invalid:\\\"E-posta adresi veya sifre hatali.\\\",msg_session:\\\"Oturumunuz sona erdi. Lutfen tekrar giris yapin.\\\",msg_conn:\\\"Baglanti basarisiz. Lutfen tekrar deneyin.\\\",msg_name_req:\\\"Lutfen adinizi girin.\\\",msg_c1_req:\\\"Lutfen 1. kisinin e-posta adresini girin.\\\",msg_pickone:\\\"Once bir secim yapin.\\\",msg_helpsent:\\\"Kisileriniz bilgilendirildi. Acil tehlike mi var? 112'yi kendiniz arayin.\\\",msg_helpfail:\\\"Bir sorun olustu. Acil durumda kendiniz 112'yi arayin.\\\"};\\nT.ar={d_demo:\\\"إشعار تجريبي\\\",notif_title:\\\"تذكير CareFlow\\\",notif_body:\\\"حان وقت دوائك. لا تنس فحصك اليومي.\\\",notif_blocked:\\\"الإشعارات متوقفة. فعّلها في متصفحك لتجربة ذلك.\\\",notif_unsupported:\\\"متصفحك لا يدعم الإشعارات.\\\",sub:\\\"دعم يومي هادئ في المنزل\\\",w_title:\\\"مرحبا بكم في CareFlow\\\",w_intro:\\\"يساعدك CareFlow على الحفاظ على روتين يومي: تذكير بالأدوية وسؤال قصير عن حالتك.\\\",b_login:\\\"تسجيل الدخول\\\",b_register:\\\"إنشاء حساب جديد\\\",w_disc:\\\"CareFlow مشروع طلابي وليس جهازا طبيا. لا يتصل CareFlow بنفسه بالرقم 112 أو الشرطة أو الطبيب. في حالة الطوارئ اتصل دائما بالرقم 112 بنفسك.\\\",r_title:\\\"إنشاء حساب\\\",l_title:\\\"تسجيل الدخول\\\",f_email:\\\"البريد الإلكتروني\\\",f_pw:\\\"كلمة المرور (6 أحرف على الأقل)\\\",f_pw2:\\\"أعد إدخال كلمة المرور\\\",f_pw_login:\\\"كلمة المرور\\\",b_create:\\\"إنشاء الحساب\\\",b_back:\\\"رجوع\\\",q_title:\\\"بياناتك\\\",q_step:\\\"الخطوة {n} من 4\\\",q_about:\\\"عنك\\\",f_name:\\\"اسمك\\\",f_age:\\\"العمر\\\",f_weight:\\\"الوزن (اختياري)\\\",f_address:\\\"العنوان\\\",f_lang:\\\"اللغة المفضلة\\\",q_lang_note:\\\"يمكنك تغيير اللغة من الأعلى في أي وقت.\\\",q_health:\\\"الأدوية والروتين اليومي\\\",f_meds:\\\"ما الأدوية التي تتناولها وكم مرة؟\\\",f_wake:\\\"متى تستيقظ؟\\\",f_sleep:\\\"متى تنام؟\\\",f_rem:\\\"كم تذكيرا في اليوم تريد؟\\\",o_r1:\\\"1 - في الصباح فقط\\\",o_r2:\\\"2 - صباحا ومساء\\\",o_r3:\\\"3 - صباحا وظهرا ومساء\\\",q_contacts:\\\"جهات الاتصال في الطوارئ\\\",q_contacts_note:\\\"يتلقى هؤلاء الأشخاص بريدا إلكترونيا إذا ضغطت على زر المساعدة أو لم ترد.\\\",f_c1:\\\"جهة الاتصال 1 - الاسم\\\",f_c2:\\\"جهة الاتصال 2 - الاسم (اختياري)\\\",f_rel:\\\"صلة القرابة\\\",f_cmail:\\\"البريد الإلكتروني\\\",q_gp:\\\"الطبيب والموافقة\\\",chk_gp:\\\"نعم، يمكن لـ CareFlow إبلاغ طبيبي عند وجود قلق.\\\",f_gpn:\\\"اسم الطبيب\\\",f_gpp:\\\"العيادة\\\",f_gpc:\\\"بريد العيادة\\\",chk_store:\\\"نعم، يمكن لـ CareFlow حفظ بياناتي.\\\",b_prev:\\\"السابق\\\",b_next:\\\"التالي\\\",b_check:\\\"مراجعة\\\",rev_title:\\\"تحقق من بياناتك\\\",b_confirm:\\\"تأكيد وحفظ\\\",b_edit:\\\"تعديل شيء ما\\\",d_hi:\\\"مرحبا\\\",d_today:\\\"اليوم\\\",d_morning:\\\"فحص الصباح\\\",d_evening:\\\"فحص المساء\\\",d_card:\\\"بطاقتي الصحية\\\",b_help:\\\"أحتاج مساعدة\\\",b_editprofile:\\\"تعديل بياناتي\\\",b_logout:\\\"تسجيل الخروج\\\",ck_done:\\\"مكتمل \\\\u2713\\\",ck_notyet:\\\"ليس بعد\\\",d_medrem:\\\"لا تنس تناول أدويتك.\\\",c_note:\\\"أظهر هذه الشاشة للطبيب أو الإسعاف عند الحاجة.\\\",b_back_today:\\\"العودة إلى اليوم\\\",chk_med_q:\\\"هل تناولت أدويتك؟\\\",chk_score_q_m:\\\"كيف تشعر اليوم؟\\\",chk_score_q_e:\\\"كيف تشعر هذا المساء؟\\\",sc1:\\\"سيء جدا\\\",sc2:\\\"سيء\\\",sc3:\\\"لا بأس\\\",sc4:\\\"جيد\\\",sc5:\\\"جيد جدا\\\",chk_text_q:\\\"هل تريد أن تخبرنا باختصار كيف تشعر؟\\\",chk_text_q1:\\\"هل تريد أن تخبرنا باختصار بما يحدث؟\\\",s1_confirm_q:\\\"لقد أشرت إلى أنك تشعر بحالة سيئة جدا. هل هذا صحيح؟\\\",s1_yes:\\\"نعم، هذا صحيح\\\",s1_adjust:\\\"لا، عدّل\\\",s1_help_q:\\\"هل تحتاج مساعدة الآن؟\\\",s1_help_yes:\\\"نعم، أحتاج مساعدة\\\",s1_help_no:\\\"لا\\\",chk_done_m:\\\"شكرا لك. تم حفظ فحص الصباح. \\\\u2713\\\",chk_done_e:\\\"شكرا لك. تم حفظ فحص المساء. \\\\u2713\\\",reply_attention:\\\"يبدو أن اليوم أصعب قليلا. لا تتردد في استخدام زر المساعدة عند الحاجة.\\\",reply_urgent:\\\"هذا يبدو خطيرا. في حالة الخطر الفوري اتصل بالرقم 112 بنفسك. استخدم زر المساعدة إذا أردت أن ننبه جهات اتصالك.\\\",yes:\\\"نعم\\\",no:\\\"لا\\\",b_send:\\\"إرسال\\\",h_title:\\\"تحتاج مساعدة\\\",h_danger:\\\"هل هناك خطر فوري؟ اتصل بالرقم 112 بنفسك.\\\",h_call:\\\"اتصل بالرقم 112\\\",h_note:\\\"لا يتصل CareFlow بالرقم 112 أو الشرطة أو الإسعاف. يجب أن تفعل ذلك أنت أو شخص قريب منك.\\\",h_q:\\\"هل تريد أن ينبه CareFlow جهات الاتصال الخاصة بك؟\\\",h_yes:\\\"نعم، نبه جهات اتصالي\\\",h_no:\\\"لا، رجوع\\\",cf_title:\\\"هل أنت متأكد؟\\\",cf_text:\\\"ستتلقى جهات اتصالك الآن بريدا إلكترونيا بأنك بحاجة إلى مساعدة.\\\",cf_yes:\\\"نعم، أرسل الآن\\\",cf_no:\\\"لا، إلغاء\\\",msg_fill:\\\"يرجى إدخال بريدك الإلكتروني وكلمة المرور.\\\",msg_pw6:\\\"اختر كلمة مرور من 6 أحرف على الأقل.\\\",msg_pwmatch:\\\"كلمتا المرور غير متطابقتين.\\\",msg_busy:\\\"لحظة من فضلك...\\\",msg_email_exists:\\\"هذا البريد الإلكتروني مسجل بالفعل. سجل الدخول أو استخدم بريدا آخر.\\\",msg_login_invalid:\\\"البريد الإلكتروني أو كلمة المرور غير صحيحة.\\\",msg_session:\\\"انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.\\\",msg_conn:\\\"فشل الاتصال. حاول مرة أخرى.\\\",msg_name_req:\\\"يرجى إدخال اسمك.\\\",msg_c1_req:\\\"يرجى إدخال البريد الإلكتروني لجهة الاتصال 1.\\\",msg_pickone:\\\"يرجى الاختيار أولا.\\\",msg_helpsent:\\\"تم تنبيه جهات اتصالك. هل هناك خطر فوري؟ اتصل بالرقم 112 بنفسك.\\\",msg_helpfail:\\\"حدث خطأ ما. في حالة الطوارئ اتصل بالرقم 112 بنفسك.\\\"};\\nvar LANGS={nl:\\\"Nederlands\\\",en:\\\"English\\\",tr:\\\"Turkce\\\",ar:\\\"Arabisch\\\"};\\nfunction el(id){return document.getElementById(id);}\\nfunction ck(n,v,d){try{if(v===null){document.cookie=n+\\\"=; max-age=0; path=/\\\";return \\\"\\\";}if(v!==undefined){document.cookie=n+\\\"=\\\"+encodeURIComponent(v)+\\\"; max-age=\\\"+(d||2592000)+\\\"; path=/\\\";return v;}var p=document.cookie.split(\\\"; \\\");for(var i=0;i<p.length;i++){var kv=p[i].split(\\\"=\\\");if(kv[0]===n){return decodeURIComponent(kv[1]||\\\"\\\");}}}catch(e){}return \\\"\\\";}\\nfunction ls(n,v){try{if(v===null){localStorage.removeItem(n);return \\\"\\\";}if(v!==undefined){localStorage.setItem(n,v);return v;}return localStorage.getItem(n)||\\\"\\\";}catch(e){return \\\"\\\";}}\\nfunction getTok(){if(MEM.token){return MEM.token;}var t=ls(\\\"cf_token\\\")||ck(\\\"cf_token\\\");MEM.token=t||\\\"\\\";return MEM.token;}\\nfunction setTok(t){MEM.token=t||\\\"\\\";ls(\\\"cf_token\\\",t);ck(\\\"cf_token\\\",t);}\\nfunction delTok(){MEM.token=\\\"\\\";ls(\\\"cf_token\\\",null);ck(\\\"cf_token\\\",null);}\\nfunction getLang(){if(MEM.lang){return MEM.lang;}var l=ls(\\\"cf_lang\\\")||ck(\\\"cf_lang\\\")||\\\"nl\\\";if(!T[l]){l=\\\"nl\\\";}MEM.lang=l;return l;}\\nfunction t(k){var L=T[getLang()]||T.nl;return (L[k]!==undefined?L[k]:(T.nl[k]!==undefined?T.nl[k]:k));}\\nfunction setLang(l){if(!T[l]){l=\\\"nl\\\";}MEM.lang=l;ls(\\\"cf_lang\\\",l);ck(\\\"cf_lang\\\",l);applyLang();}\\nfunction applyLang(){var l=getLang();document.documentElement.lang=l;document.documentElement.dir=(l===\\\"ar\\\"?\\\"rtl\\\":\\\"ltr\\\");var e=document.querySelectorAll(\\\"[data-i18n]\\\");for(var i=0;i<e.length;i++){e[i].textContent=t(e[i].getAttribute(\\\"data-i18n\\\"));}var p=document.querySelectorAll(\\\"[data-i18n-ph]\\\");for(var j=0;j<p.length;j++){p[j].placeholder=t(p[j].getAttribute(\\\"data-i18n-ph\\\"));}var codes=[\\\"nl\\\",\\\"en\\\",\\\"tr\\\",\\\"ar\\\"];for(var k=0;k<codes.length;k++){var b=el(\\\"lb_\\\"+codes[k]);if(b){b.className=(codes[k]===l?\\\"active\\\":\\\"\\\");}}var sel=el(\\\"f_language\\\");if(sel){sel.value=l;}renderQ();if(window.cfProfile){renderDash();}var chk=el(\\\"check\\\");if(chk&&chk.style.display===\\\"block\\\"){renderCheckTexts();}}\\nfunction show(id){var s=document.querySelectorAll(\\\".screen\\\");for(var i=0;i<s.length;i++){s[i].style.display=\\\"none\\\";}var x=el(id);if(x){x.style.display=\\\"block\\\";}window.scrollTo(0,0);}\\nfunction flash(id,type,text){var m=el(id);if(!m){return;}m.className=\\\"msg \\\"+type;m.textContent=text;}\\nfunction post(path,data){return fetch(API+path,{method:\\\"POST\\\",headers:{\\\"Content-Type\\\":\\\"application/json\\\"},body:JSON.stringify(data)}).then(function(r){return r.json();}).catch(function(){return {ok:false,error:\\\"conn\\\"};});}\\nfunction errText(d){if(!d){return t(\\\"msg_conn\\\");}if(d.error===\\\"email_exists\\\"){return t(\\\"msg_email_exists\\\");}if(d.error===\\\"invalid\\\"){return t(\\\"msg_login_invalid\\\");}if(d.error===\\\"auth\\\"){return t(\\\"msg_session\\\");}if(d.error===\\\"conn\\\"){return t(\\\"msg_conn\\\");}return d.message||t(\\\"msg_conn\\\");}\\nfunction logout(){delTok();window.cfProfile=null;window.cfCheckins=null;show(\\\"welcome\\\");}\\nfunction doRegister(){var e=val(\\\"r_email\\\");var p=el(\\\"r_pw\\\").value;var p2=el(\\\"r_pw2\\\").value;if(!e||!p){flash(\\\"r_msg\\\",\\\"err\\\",t(\\\"msg_fill\\\"));return;}if(p.length<6){flash(\\\"r_msg\\\",\\\"err\\\",t(\\\"msg_pw6\\\"));return;}if(p!==p2){flash(\\\"r_msg\\\",\\\"err\\\",t(\\\"msg_pwmatch\\\"));return;}flash(\\\"r_msg\\\",\\\"ok\\\",t(\\\"msg_busy\\\"));post(\\\"/register\\\",{email:e,password:p}).then(function(d){if(d&&d.ok&&d.token){setTok(d.token);startQuest();}else{flash(\\\"r_msg\\\",\\\"err\\\",errText(d));}});}\\nfunction doLogin(){var e=val(\\\"l_email\\\");var p=el(\\\"l_pw\\\").value;if(!e||!p){flash(\\\"l_msg\\\",\\\"err\\\",t(\\\"msg_fill\\\"));return;}flash(\\\"l_msg\\\",\\\"ok\\\",t(\\\"msg_busy\\\"));post(\\\"/login\\\",{email:e,password:p}).then(function(d){if(d&&d.ok&&d.token){setTok(d.token);if(d.onboarding_complete){loadDash();}else{startQuest();}}else{flash(\\\"l_msg\\\",\\\"err\\\",errText(d));}});}\\nvar qstep=1;\\nfunction startQuest(){qstep=1;renderQ();show(\\\"quest\\\");}\\nfunction renderQ(){var st=el(\\\"qstep_txt\\\");if(st){st.textContent=t(\\\"q_step\\\").split(\\\"{n}\\\").join(String(qstep));}for(var i=1;i<=4;i++){var b=el(\\\"qs\\\"+i);if(b){b.style.display=(i===qstep?\\\"block\\\":\\\"none\\\");}}var nb=el(\\\"qnextbtn\\\");if(nb){nb.textContent=(qstep===4?t(\\\"b_check\\\"):t(\\\"b_next\\\"));}}\\nfunction qPrev(){if(qstep>1){qstep--;renderQ();}else{show(\\\"welcome\\\");}}\\nfunction qNext(){if(qstep===1&&!val(\\\"f_name\\\")){flash(\\\"q_msg\\\",\\\"err\\\",t(\\\"msg_name_req\\\"));return;}if(qstep===3&&!val(\\\"f_c1c\\\")){flash(\\\"q_msg\\\",\\\"err\\\",t(\\\"msg_c1_req\\\"));return;}flash(\\\"q_msg\\\",\\\"\\\",\\\"\\\");if(qstep<4){qstep++;renderQ();}else{buildReview();}}\\nfunction gpToggle(){el(\\\"gpbox\\\").style.display=el(\\\"f_cg\\\").checked?\\\"block\\\":\\\"none\\\";}\\nfunction val(id){var e=el(id);return e?String(e.value||\\\"\\\").trim():\\\"\\\";}\\nfunction gather(){return {name:val(\\\"f_name\\\"),age:val(\\\"f_age\\\"),weight:val(\\\"f_weight\\\"),address:val(\\\"f_address\\\"),language:getLang(),medications:val(\\\"f_medications\\\"),wake_time:val(\\\"f_wake\\\"),sleep_time:val(\\\"f_sleep\\\"),reminders_per_day:val(\\\"f_reminders\\\"),contact1_name:val(\\\"f_c1n\\\"),contact1_relationship:val(\\\"f_c1r\\\"),contact1_contact:val(\\\"f_c1c\\\"),contact2_name:val(\\\"f_c2n\\\"),contact2_relationship:val(\\\"f_c2r\\\"),contact2_contact:val(\\\"f_c2c\\\"),gp_name:val(\\\"f_gpn\\\"),gp_practice:val(\\\"f_gpp\\\"),gp_contact:val(\\\"f_gpc\\\"),consent_store:el(\\\"f_cs\\\").checked,consent_gp:el(\\\"f_cg\\\").checked};}\\nfunction line(l,v){return \\\"<p><b>\\\"+l+\\\":</b> \\\"+((v===undefined||v===null||v===\\\"\\\")?\\\"-\\\":String(v))+\\\"</p>\\\";}\\nfunction cardHtml(p){var h=\\\"\\\";h+=line(t(\\\"f_name\\\"),p.name);h+=line(t(\\\"f_age\\\"),p.age);h+=line(t(\\\"f_weight\\\"),p.weight);h+=line(t(\\\"f_address\\\"),p.address);h+=line(t(\\\"f_lang\\\"),LANGS[p.language]||p.language);h+=line(t(\\\"f_meds\\\"),p.medications);h+=line(t(\\\"f_wake\\\")+\\\" / \\\"+t(\\\"f_sleep\\\"),(p.wake_time||\\\"?\\\")+\\\" - \\\"+(p.sleep_time||\\\"?\\\"));h+=line(t(\\\"f_rem\\\"),p.reminders_per_day);h+=line(t(\\\"f_c1\\\"),(p.contact1_name||\\\"-\\\")+\\\" (\\\"+(p.contact1_relationship||\\\"\\\")+\\\", \\\"+(p.contact1_contact||\\\"\\\")+\\\")\\\");h+=line(t(\\\"f_c2\\\"),p.contact2_name?(p.contact2_name+\\\" (\\\"+(p.contact2_relationship||\\\"\\\")+\\\", \\\"+(p.contact2_contact||\\\"\\\")+\\\")\\\"):\\\"-\\\");h+=line(t(\\\"chk_gp\\\"),(p.consent_gp===true||p.consent_gp===\\\"true\\\")?t(\\\"yes\\\"):t(\\\"no\\\"));h+=line(t(\\\"f_gpn\\\"),(p.gp_name||\\\"-\\\")+\\\" \\\"+(p.gp_practice||\\\"\\\")+\\\" \\\"+(p.gp_contact||\\\"\\\"));return h;}\\nfunction buildReview(){el(\\\"rev_body\\\").innerHTML=cardHtml(gather());flash(\\\"rev_msg\\\",\\\"\\\",\\\"\\\");show(\\\"review\\\");}\\nfunction saveProfile(){var tk=getTok();if(!tk){flash(\\\"rev_msg\\\",\\\"err\\\",t(\\\"msg_session\\\"));return;}var g=gather();g.token=tk;flash(\\\"rev_msg\\\",\\\"ok\\\",t(\\\"msg_busy\\\"));post(\\\"/profile\\\",g).then(function(d){if(d&&d.ok){loadDash();}else{flash(\\\"rev_msg\\\",\\\"err\\\",errText(d));}});}\\nfunction fill(id,v){var e=el(id);if(e){e.value=(v===undefined||v===null)?\\\"\\\":String(v);}}\\nfunction editProfile(){var p=window.cfProfile||{};fill(\\\"f_name\\\",p.name);fill(\\\"f_age\\\",p.age);fill(\\\"f_weight\\\",p.weight);fill(\\\"f_address\\\",p.address);fill(\\\"f_medications\\\",p.medications);fill(\\\"f_wake\\\",p.wake_time);fill(\\\"f_sleep\\\",p.sleep_time);fill(\\\"f_reminders\\\",p.reminders_per_day||\\\"2\\\");fill(\\\"f_c1n\\\",p.contact1_name);fill(\\\"f_c1r\\\",p.contact1_relationship);fill(\\\"f_c1c\\\",p.contact1_contact);fill(\\\"f_c2n\\\",p.contact2_name);fill(\\\"f_c2r\\\",p.contact2_relationship);fill(\\\"f_c2c\\\",p.contact2_contact);fill(\\\"f_gpn\\\",p.gp_name);fill(\\\"f_gpp\\\",p.gp_practice);fill(\\\"f_gpc\\\",p.gp_contact);el(\\\"f_cg\\\").checked=(p.consent_gp===true||p.consent_gp===\\\"true\\\");el(\\\"f_cs\\\").checked=(p.consent_store===true||p.consent_store===\\\"true\\\");gpToggle();startQuest();}\\nfunction loadDash(){post(\\\"/me\\\",{token:getTok()}).then(function(d){try{if(!d||!d.ok||!d.profile){logout();return;}window.cfProfile=d.profile;window.cfCheckins=d.checkins||[];if(d.profile.language&&T[d.profile.language]){setLang(d.profile.language);}renderDash();show(\\\"dash\\\");}catch(e){logout();}});}\\nfunction renderDash(){var p=window.cfProfile||{};var hi=el(\\\"dash_hi\\\");if(hi){hi.textContent=t(\\\"d_hi\\\")+\\\" \\\"+(p.name||\\\"\\\");}var c=window.cfCheckins||[];var did={};for(var i=0;i<c.length;i++){if(c[i]&&c[i].period){did[c[i].period]=true;}}var st=\\\"<p class='big'><b>\\\"+t(\\\"d_today\\\")+\\\"</b></p>\\\";st+=\\\"<p>\\\"+t(\\\"d_morning\\\")+\\\": \\\"+(did.ochtend?t(\\\"ck_done\\\"):t(\\\"ck_notyet\\\"))+\\\"</p>\\\";st+=\\\"<p>\\\"+t(\\\"d_evening\\\")+\\\": \\\"+(did.avond?t(\\\"ck_done\\\"):t(\\\"ck_notyet\\\"))+\\\"</p>\\\";st+=\\\"<p class='muted'>\\\"+t(\\\"d_medrem\\\")+\\\"</p>\\\";var ds=el(\\\"dash_status\\\");if(ds){ds.innerHTML=st;}}\\nfunction openCard(){el(\\\"card_body\\\").innerHTML=cardHtml(window.cfProfile||{});show(\\\"card\\\");}\\nvar CK={period:\\\"ochtend\\\",med:\\\"\\\",score:0,s1ok:false};\\nfunction startCheck(period){CK={period:period,med:\\\"\\\",score:0,s1ok:false};el(\\\"ck_med_ja\\\").className=\\\"sec\\\";el(\\\"ck_med_nee\\\").className=\\\"sec\\\";el(\\\"ck_text_val\\\").value=\\\"\\\";flash(\\\"ck_med_msg\\\",\\\"\\\",\\\"\\\");flash(\\\"ck_text_msg\\\",\\\"\\\",\\\"\\\");flash(\\\"ck_help_msg\\\",\\\"\\\",\\\"\\\");renderCheckTexts();ckShowStep(\\\"med\\\");show(\\\"check\\\");}\\nfunction ckShowStep(step){var steps=[\\\"med\\\",\\\"score\\\",\\\"s1\\\",\\\"s1help\\\",\\\"text\\\",\\\"done\\\"];for(var i=0;i<steps.length;i++){var e=el(\\\"ck_\\\"+steps[i]);if(e){e.style.display=(steps[i]===step?\\\"block\\\":\\\"none\\\");}}if(step===\\\"score\\\"){renderScoreBtns();}if(step===\\\"text\\\"){renderTextQ();}window.scrollTo(0,0);}\\nfunction renderCheckTexts(){var ttl=el(\\\"chk_title\\\");if(ttl){ttl.textContent=t(CK.period===\\\"ochtend\\\"?\\\"d_morning\\\":\\\"d_evening\\\");}if(el(\\\"ck_score\\\")&&el(\\\"ck_score\\\").style.display!==\\\"none\\\"){renderScoreBtns();}if(el(\\\"ck_text\\\")&&el(\\\"ck_text\\\").style.display!==\\\"none\\\"){renderTextQ();}}\\nfunction ckSetMed(v){CK.med=v;el(\\\"ck_med_ja\\\").className=(v===\\\"ja\\\"?\\\"on\\\":\\\"sec\\\");el(\\\"ck_med_nee\\\").className=(v===\\\"nee\\\"?\\\"on\\\":\\\"sec\\\");}\\nfunction ckMedNext(){if(!CK.med){flash(\\\"ck_med_msg\\\",\\\"err\\\",t(\\\"msg_pickone\\\"));return;}flash(\\\"ck_med_msg\\\",\\\"\\\",\\\"\\\");ckShowStep(\\\"score\\\");}\\nfunction renderScoreBtns(){var q=el(\\\"ck_score_q\\\");if(q){q.textContent=t(CK.period===\\\"ochtend\\\"?\\\"chk_score_q_m\\\":\\\"chk_score_q_e\\\");}var wrap=el(\\\"ck_score_btns\\\");if(!wrap){return;}wrap.innerHTML=\\\"\\\";for(var i=1;i<=5;i++){(function(n){var b=document.createElement(\\\"button\\\");b.textContent=n+\\\" - \\\"+t(\\\"sc\\\"+n);b.onclick=function(){ckScore(n);};wrap.appendChild(b);})(i);}}\\nfunction ckScore(n){CK.score=n;if(n===1&&!CK.s1ok){ckShowStep(\\\"s1\\\");}else{ckShowStep(\\\"text\\\");}}\\nfunction ckShowScore(){ckShowStep(\\\"score\\\");}\\nfunction ckS1Confirm(){CK.s1ok=true;ckShowStep(\\\"s1help\\\");}\\nfunction ckHelpYes(){flash(\\\"ck_help_msg\\\",\\\"ok\\\",t(\\\"msg_busy\\\"));post(\\\"/help\\\",{token:getTok(),message:\\\"Gebruiker geeft tijdens de check aan direct hulp nodig te hebben.\\\"}).then(function(d){flash(\\\"ck_help_msg\\\",(d&&d.ok)?\\\"ok\\\":\\\"err\\\",(d&&d.ok)?t(\\\"msg_helpsent\\\"):t(\\\"msg_helpfail\\\"));setTimeout(function(){ckShowStep(\\\"text\\\");},1200);});}\\nfunction ckHelpNo(){ckShowStep(\\\"text\\\");}\\nfunction renderTextQ(){var q=el(\\\"ck_text_q\\\");if(q){q.textContent=t(CK.score===1?\\\"chk_text_q1\\\":\\\"chk_text_q\\\");}}\\nfunction ckSubmit(){var txt=val(\\\"ck_text_val\\\");flash(\\\"ck_text_msg\\\",\\\"ok\\\",t(\\\"msg_busy\\\"));post(\\\"/checkin\\\",{token:getTok(),period:CK.period,medication_taken:CK.med,wellbeing:String(CK.score||\\\"\\\"),text:txt}).then(function(d){if(d&&d.ok){var lvl=d.concern_level||\\\"NORMAAL\\\";var extra=\\\"\\\";if(lvl===\\\"URGENT\\\"){extra=\\\"\\\\n\\\\n\\\"+t(\\\"reply_urgent\\\");}else if(lvl===\\\"AANDACHT\\\"){extra=\\\"\\\\n\\\\n\\\"+t(\\\"reply_attention\\\");}el(\\\"ck_done_msg\\\").textContent=t(CK.period===\\\"ochtend\\\"?\\\"chk_done_m\\\":\\\"chk_done_e\\\")+extra;ckShowStep(\\\"done\\\");if(window.cfCheckins){window.cfCheckins.push({period:CK.period});}}else{flash(\\\"ck_text_msg\\\",\\\"err\\\",errText(d));}});}\\nfunction demoNotify(){if(!(\\\"Notification\\\" in window)){flash(\\\"d_msg\\\",\\\"err\\\",t(\\\"notif_unsupported\\\"));return;}function fire(){try{var n=new Notification(t(\\\"notif_title\\\"),{body:t(\\\"notif_body\\\")});n.onclick=function(){window.focus();try{startCheck(\\\"ochtend\\\");}catch(e){}try{n.close();}catch(e){}};flash(\\\"d_msg\\\",\\\"ok\\\",t(\\\"notif_body\\\"));}catch(e){flash(\\\"d_msg\\\",\\\"err\\\",t(\\\"notif_blocked\\\"));}}if(Notification.permission===\\\"granted\\\"){fire();}else if(Notification.permission!==\\\"denied\\\"){Notification.requestPermission().then(function(p){if(p===\\\"granted\\\"){fire();}else{flash(\\\"d_msg\\\",\\\"err\\\",t(\\\"notif_blocked\\\"));}}).catch(function(){flash(\\\"d_msg\\\",\\\"err\\\",t(\\\"notif_blocked\\\"));});}else{flash(\\\"d_msg\\\",\\\"err\\\",t(\\\"notif_blocked\\\"));}}function doHelp(){flash(\\\"h_msg\\\",\\\"ok\\\",t(\\\"msg_busy\\\"));post(\\\"/help\\\",{token:getTok(),message:\\\"Gebruiker vraagt via de website om hulp.\\\"}).then(function(d){if(d&&d.ok){flash(\\\"h_msg\\\",\\\"ok\\\",t(\\\"msg_helpsent\\\"));}else{flash(\\\"h_msg\\\",\\\"err\\\",t(\\\"msg_helpfail\\\"));}});}\\nwindow.onerror=function(){try{show(\\\"welcome\\\");}catch(e){}};\\napplyLang();show(\\\"welcome\\\");if(getTok()){loadDash();}\";\nreturn [{ json: { js } }];"
+      },
+      "id": "5b4d4d91-6af2-429d-8bf9-dbb0507b13d5",
+      "name": "App-script samenstellen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.js }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/javascript; charset=utf-8"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "public, max-age=86400"
+              }
+            ]
+          }
+        }
+      },
+      "id": "ffb1606a-9ae4-4622-aa00-1d39eee8929f",
+      "name": "App-script versturen",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        2560
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Website openen": {
+      "main": [
+        [
+          {
+            "node": "Pagina samenstellen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pagina samenstellen": {
+      "main": [
+        [
+          {
+            "node": "Pagina versturen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook registreren": {
+      "main": [
+        [
+          {
+            "node": "Bestaand e-mailadres zoeken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bestaand e-mailadres zoeken": {
+      "main": [
+        [
+          {
+            "node": "Account voorbereiden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Account voorbereiden": {
+      "main": [
+        [
+          {
+            "node": "Bestaat al?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bestaat al?": {
+      "main": [
+        [
+          {
+            "node": "Antwoord: e-mail bestaat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wachtwoord hashen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antwoord: e-mail bestaat": {
+      "main": [
+        [
+          {
+            "node": "Versturen (register dup)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wachtwoord hashen": {
+      "main": [
+        [
+          {
+            "node": "Account opslaan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Account opslaan": {
+      "main": [
+        [
+          {
+            "node": "Antwoord: account klaar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antwoord: account klaar": {
+      "main": [
+        [
+          {
+            "node": "Versturen (register ok)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook inloggen": {
+      "main": [
+        [
+          {
+            "node": "Gebruiker zoeken (login)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruiker zoeken (login)": {
+      "main": [
+        [
+          {
+            "node": "Wachtwoord controleren",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wachtwoord controleren": {
+      "main": [
+        [
+          {
+            "node": "Login beoordelen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Login beoordelen": {
+      "main": [
+        [
+          {
+            "node": "Versturen (login)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook mijn gegevens": {
+      "main": [
+        [
+          {
+            "node": "Gebruiker via token (me)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruiker via token (me)": {
+      "main": [
+        [
+          {
+            "node": "Check-ins ophalen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check-ins ophalen": {
+      "main": [
+        [
+          {
+            "node": "Dashboard samenstellen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dashboard samenstellen": {
+      "main": [
+        [
+          {
+            "node": "Versturen (me)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook profiel": {
+      "main": [
+        [
+          {
+            "node": "Gebruiker via token (profiel)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruiker via token (profiel)": {
+      "main": [
+        [
+          {
+            "node": "Profiel bijwerken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Profiel bijwerken": {
+      "main": [
+        [
+          {
+            "node": "Antwoord (profiel)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antwoord (profiel)": {
+      "main": [
+        [
+          {
+            "node": "Versturen (profiel)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook check-in": {
+      "main": [
+        [
+          {
+            "node": "Gebruiker via token (check-in)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruiker via token (check-in)": {
+      "main": [
+        [
+          {
+            "node": "AI gezondheidscheck",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check-in voorbereiden": {
+      "main": [
+        [
+          {
+            "node": "Check-in geldig?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check-in geldig?": {
+      "main": [
+        [
+          {
+            "node": "Check-in loggen",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Antwoord (check-in mislukt)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check-in loggen": {
+      "main": [
+        [
+          {
+            "node": "Herinnering afvinken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antwoord (check-in ok)": {
+      "main": [
+        [
+          {
+            "node": "Versturen (check-in ok)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antwoord (check-in mislukt)": {
+      "main": [
+        [
+          {
+            "node": "Versturen (check-in mislukt)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook hulp": {
+      "main": [
+        [
+          {
+            "node": "Gebruiker via token (hulp)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gebruiker via token (hulp)": {
+      "main": [
+        [
+          {
+            "node": "Hulp voorbereiden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hulp voorbereiden": {
+      "main": [
+        [
+          {
+            "node": "Hulp geldig?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hulp geldig?": {
+      "main": [
+        [
+          {
+            "node": "Noodgebeurtenis opslaan",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Antwoord (hulp mislukt)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noodgebeurtenis opslaan": {
+      "main": [
+        [
+          {
+            "node": "Contactpersoon mailen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contactpersoon mailen": {
+      "main": [
+        [
+          {
+            "node": "Antwoord (hulp ok)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antwoord (hulp ok)": {
+      "main": [
+        [
+          {
+            "node": "Versturen (hulp ok)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antwoord (hulp mislukt)": {
+      "main": [
+        [
+          {
+            "node": "Versturen (hulp mislukt)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Herinnering afvinken": {
+      "main": [
+        [
+          {
+            "node": "Antwoord (check-in ok)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI gezondheidscheck": {
+      "main": [
+        [
+          {
+            "node": "Check-in voorbereiden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook app-script": {
+      "main": [
+        [
+          {
+            "node": "App-script samenstellen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "App-script samenstellen": {
+      "main": [
+        [
+          {
+            "node": "App-script versturen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "45e1a95e-c5fb-4ae6-95ea-706270ff36f1",
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp",
+    "instanceId": "ce3fea3a6c3de565710366967f152fba5746bf6e5e87fdbebbed8d996dd5d3c7"
+  },
+  "nodeGroups": [],
+  "id": "6LPAVXeU7pRQqLnP",
+  "tags": []
+}
