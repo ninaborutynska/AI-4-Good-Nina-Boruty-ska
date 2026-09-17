@@ -17,43 +17,39 @@ _List the files, or link to them. Notebook exports, screenshots, scripts._
 
 ---
 
-
 ## 2. Hackathon prototype -> [`hackathon/`](hackathon/)
 
-> Your tool and your SDG for this hackathon are announced at the **start of Friday's class**.
-> Write them down here once you know them.
+**Project title:** CareFlow: Automating Medication Support
 
-**Project title:**
+**My pair partner:** Amien el Azzouzi
 
-**My pair partner:**
+**Tool we had to use:** n8n
 
-**Tool we had to use:**
-
-**SDG we had to address:**
+**SDG we had to address:** SDG 3 - Good Health and Well-being
 
 **What problem does it solve, and for whom?**
-_Name a real, specific user. "Everyone" is not a user._
+Many older adults (65+) forget to take their medication, and that can affect their health. CareFlow supports people who need help remembering medication and staying on top of their wellbeing - mainly aimed at people aged 65 and older, but anyone needing support with medication or health could use it.
 
 **What did you build?**
-_Two or three sentences. What can a user actually do with it?_
+CareFlow is a simple app that reminds users to take their medication two to three times a day and asks them to rate how they're feeling (1-5) at each check-in. An AI classification node reads the response and sorts it as normal, needs attention, or urgent. If there's no response, it sends a follow-up reminder; if there's still no response, or the check-in is urgent, it alerts the user's emergency contact and, with permission, their doctor (huisarts). Everything is saved in a monthly overview sent to the user and their emergency contacts. There's also a help button for direct emergencies.
 
 **Link to the live thing (if any):**
-_Deployed URL, workflow export, video demo - whatever proves it works._
+Demo video and the three n8n workflow exports (CareFlow Reminders, CareFlow Monthly Analysis, CareFlow Website) are in [`hackathon/project/`](hackathon/project/), along with the presentation slides.
 
 **How do I run it?**
-_Short instructions so someone else can start it._
+Visit the CareFlow website and create an account. After registering, complete the questionnaire with personal, medical and emergency contact information. Once done, you start receiving check-ins, medication reminders and other support automatically.
 
 **Who did what?**
-_Be honest about the split of work between you and your partner._
+Amien mainly built the product (the n8n workflows); we came up with the concept together. I made the full presentation in Canva.
 
 **Ethical reflection - what are the risks of your tool? Who could it harm?**
-_Every hackathon requires this. One honest paragraph beats three vague ones._
+CareFlow deals with health, so any mistake or delay in a notification could have more serious consequences than a non-health-related automation - for example if the system is down, reminders might not arrive, or the AI could misclassify a message as worrying. CareFlow should be trusted for things like medication reminders, daily check-ins, or spotting patterns in responses, but not for making medical decisions on its own. For the average person it's still useful - sending reminders, tracking how users feel, and involving others when necessary - but it isn't foolproof and should be used as a support system alongside humans, professionals or a local doctor, not as a replacement.
 
 ### Checklist
-- [ ] Prototype code (or export / workflow file) is in `hackathon/`
-- [ ] This week's slides are in `hackathon/`
-- [ ] The prototype actually runs, and I wrote down how to run it
-- [ ] Ethical reflection written above
+- [x] Prototype code (or export / workflow file) is in `hackathon/`
+- [x] This week's slides are in `hackathon/`
+- [x] The prototype actually runs, and I wrote down how to run it
+- [x] Ethical reflection written above
 
 ---
 
