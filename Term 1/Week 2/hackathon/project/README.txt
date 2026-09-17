@@ -1,0 +1,11 @@
+CareFlow is a simple app designed to help people take their medication and manage their wellbeing. It is mainly aimed at people aged above 65, but anyone who needs support with medication or their health could use it. When our users start CareFlow, they answer a short form with necessary information such as their name, age, address, weight, medication, language and more. The user is asked for permission for CareFlow to contact their local doctor (Dutch huisarts) whenever we deem it necessary. After registration every user has their own personal medical card with all their information.
+
+We support our users throughout the day by reminding them of their medication intake, twice or thrice a day depending on their preferences. After each check-in, we ask them to rate how they're feeling from 1-5, and whether everything is okay. An AI model is used to analyse these responses, and classify them as normal, needing attention or urgent. When the AI decides their check-in is classified as urgent, it contacts emergency contacts aswell. If the user does not respond to our check-in, me send one more reminder, and if there is still no response we alert the user's emergency contact and, if given permission, their local doctor. This is saved in their monthly overview, which is sent to the emergency contacts and user themselves.
+
+On the app we also have a help button, in case one of our users is having an emergency and needs help contacting emergency contacts, or local authorities. CareFlow is designed for use in the Netherlands and is a support system, not a replacement for a huisarts, medical professional or emergency service.
+
+Target group:
+CareFlow is mainly designed for older adults, especially people around 65 years and older, who could benefit from more planning around medication and health monitoring. The system is intentionally kept simple so that it is easy to understand and use.
+
+How to run it:
+To use CareFlow, the user simply visits the CareFlow website and creates an account. After registering, they complete the questionnaire with their personal, medical and emergency contact information. Once this is completed, they can start using CareFlow and receive their check-ins, medication reminders and other support automatically.
