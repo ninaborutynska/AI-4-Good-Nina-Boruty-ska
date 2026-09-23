@@ -20,40 +20,37 @@ _List the files, or link to them. Notebook exports, screenshots, scripts._
 
 ## 2. Hackathon prototype -> [`hackathon/`](hackathon/)
 
-> Your tool and your SDG for this hackathon are announced at the **start of Friday's class**.
-> Write them down here once you know them.
+**Project title:** LabBridge: Equal Access Health Literacy
 
-**Project title:**
+**My pair partner:** Sofiia Tiahun
 
-**My pair partner:**
+**Tool we had to use:** Gemini API or Claude API, called from Python (we used the Gemini API)
 
-**Tool we had to use:**
-
-**SDG we had to address:**
+**SDG we had to address:** SDG 10 - Reduced Inequalities
 
 **What problem does it solve, and for whom?**
-_Name a real, specific user. "Everyone" is not a user._
+Lab reports are written for doctors, not patients. About 1 in 4 adults in the Netherlands (24.5%) has trouble understanding health information (Pharos/Nivel), and about 21-28% skip a specialist visit because of the cost or the "own risk" (Nivel/Zorgwijzer). LabBridge is for patients who get a lab report and can't easily understand it - especially people with limited health literacy, older adults and non-native speakers - and who can't quickly or affordably see a doctor to explain it. It is not for doctors and it is not a diagnosis.
 
 **What did you build?**
-_Two or three sentences. What can a user actually do with it?_
+A web app where the user pastes their lab results (or picks a sample report) and clicks "Translate & Explain". Gemini turns it into a plain-language guide: a short summary, an explanation of each result, questions to ask the doctor and low-cost care options. Dangerous values are checked with fixed rules first and always trigger an emergency warning.
 
 **Link to the live thing (if any):**
-_Deployed URL, workflow export, video demo - whatever proves it works._
+Code, README, slides, screenshots and ethical reflection are in [`hackathon/labbridge/`](hackathon/labbridge/). Screenshots of the working app: [input](hackathon/labbridge/screenshots/labbridge_input.png), [output](hackathon/labbridge/screenshots/labbridge_output.png).
 
 **How do I run it?**
-_Short instructions so someone else can start it._
+In `hackathon/labbridge/`: copy `.env.example` to `.env` and add your own Gemini API key, run `python3 app.py`, then open http://localhost:8080 in the browser. Full instructions are in the [LabBridge README](hackathon/labbridge/README.md).
 
 **Who did what?**
-_Be honest about the split of work between you and your partner._
+Sofiia mainly built the app. We came up with the concept together. I made the presentation in Canva, wrote the ethical reflection and put everything together on GitHub.
 
 **Ethical reflection - what are the risks of your tool? Who could it harm?**
-_Every hackathon requires this. One honest paragraph beats three vague ones._
+The biggest risk is that a patient reads the AI explanation as a diagnosis. If it misreads or downplays a dangerous result, someone may delay care they need - and our users, people with limited health literacy, are the least able to spot such an error. The AI may also explain non-English or badly formatted reports worse, which could recreate the inequality SDG 10 asks us to reduce, and lab results are sensitive data. To limit this, every answer is framed as information, not a diagnosis, and tells the user to talk to a doctor; dangerous values are checked with fixed rules before the AI and always show an emergency warning; the input format is kept simple; and reports are not stored. Next, we would test the tool with more languages and report formats and have patients and doctors review its output. Full version: [`individual ethical reflection heckathon 3.docx`](hackathon/labbridge/).
 
 ### Checklist
-- [ ] Prototype code (or export / workflow file) is in `hackathon/`
-- [ ] This week's slides are in `hackathon/`
-- [ ] The prototype actually runs, and I wrote down how to run it
-- [ ] Ethical reflection written above
+- [x] Prototype code (or export / workflow file) is in `hackathon/`
+- [x] This week's slides are in `hackathon/`
+- [x] The prototype actually runs, and I wrote down how to run it
+- [x] Ethical reflection written above
 
 ---
 
