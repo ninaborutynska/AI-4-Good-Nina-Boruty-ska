@@ -13,9 +13,9 @@ Example run of Green or Not?: 2 flights, 3000 km driving, eats meat daily -> `Yo
 
 **What did I find difficult, and how did I solve it?**
 
-The most confusing part for me was that `input()` always gives back a string. At first I did not understand why multiplying the answer by 7 did not give a number. After converting it with `int()` or `float()` it worked. I also had to get used to the difference between `=` and `==`, and to the fact that indentation in Python really matters for which lines belong to an `if`. Running small cells and reading the error messages helped me find the mistakes.
+Almost everything in this workshop was new to me, because I had never programmed before. The parts I needed the most explanation for were: why `input()` always gives back text and has to be converted with `int()` or `float()` before you can calculate with it, the difference between `/`, `//` and `%`, and the difference between `=` and `==`. I asked Claude to explain these with small examples, and then ran the cells to see what happens.
 
-**Use of AI tools:** I used Claude (AI assistant) to check my answers, explain parts I did not understand, and help me fix small things in the code (for example making "Yes" and "yes" both work in Green or Not?). I read and ran all the code myself and can explain every line.
+**Use of AI tools:** I used Claude (an AI assistant) a lot for this week's homework. It helped me with most of the code and the written answers. At the same time I used it as a tutor: whenever I did not understand something, I asked it to explain it step by step, and I learned a lot that way. I went through all the code and ran it myself to understand what each part does.
 
 ### Checklist
 - [x] My workshop / homework files are in `homework/`
