@@ -1,0 +1,5 @@
+LabBridge - Equal Access Health Literacy & Diagnostic Explainer
+
+LabBridge turns a confusing lab report, full of medical terms, numbers, and flags like "HIGH" or "LOW", into a simple language explanation anyone can understand. A patient pastes their lab results, or picks a sample report, and clicks "Translate & Explain." An AI model reads the report and creates a simple guide: a short summary of what the results mean, a plain-language explanation of each biomarker, and a list of questions to ask a doctor, along with affordable community care options nearby.
+
+Many people receive lab results they can't interpret on their own, and don't always have quick or affordable access to a doctor who can explain them. LabBridge closes that gap, giving everyone (regardless of health literacy, income, or language) the same starting point for understanding their own health. It addresses SDG 10, Reduced Inequalities.
