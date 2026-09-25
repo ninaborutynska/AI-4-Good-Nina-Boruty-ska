@@ -1,3 +1,28 @@
+## 1. Homework & workshop assignments -> [`homework/`](homework/)
+
+**What was the assignment?**
+
+The Week 1 workshop notebook "Python Basics & Flow Control". It had three learning waves: using Python as a calculator (`+ - * / // % **`), variables and data types (string, integer, float, Boolean, converting with `int()` / `str()`, `input()`), and making decisions with comparisons and `if` / `elif` / `else`. The big individual assignment was **Green or Not?**, a CO2 budget calculator that asks about flights, driving and diet, calculates the yearly CO2 and says if you are under or over the sustainable budget of 2500 kg. The notebook ended with setting up this GitHub portfolio.
+
+**What did I hand in?**
+
+- [`Week1_Workshop_Student.ipynb`](homework/Week1_Workshop_Student.ipynb) - the full workshop notebook with all code cells run and all written questions answered (including the reflections on the income risk classifier and on using the CO2 calculator for a climate tax).
+- [`green_or_not.py`](homework/green_or_not.py) - the Green or Not? assignment as a separate Python script, so it can be run on its own: `python green_or_not.py`
+
+Example run of Green or Not?: 2 flights, 3000 km driving, eats meat daily -> `You emit 2890 kg CO2 per year. That is slightly over budget.`
+
+**What did I find difficult, and how did I solve it?**
+
+The most confusing part for me was that `input()` always gives back a string. At first I did not understand why multiplying the answer by 7 did not give a number. After converting it with `int()` or `float()` it worked. I also had to get used to the difference between `=` and `==`, and to the fact that indentation in Python really matters for which lines belong to an `if`. Running small cells and reading the error messages helped me find the mistakes.
+
+**Use of AI tools:** I used Claude (AI assistant) to check my answers, explain parts I did not understand, and help me fix small things in the code (for example making "Yes" and "yes" both work in Green or Not?). I read and ran all the code myself and can explain every line.
+
+### Checklist
+- [x] My workshop / homework files are in `homework/`
+- [x] Everything runs without errors, or I explained what does not and why
+
+---
+
 ReadMe for Hackathon 1 
 Project title: Reloop 
  
