@@ -6,17 +6,30 @@
 
 **What was the assignment?**
 
+The Week 3 workshop notebook "Lists & Dictionaries". Wave 1 was about lists: indexes (starting at 0, `-1` for the last item), `append()`, `insert()`, `remove()`, `sort()` and the `in` operator (Food Bank Inventory). Wave 2 was about analysing list data with `sum()`, `len()`, `min()` and `max()` (Wage Gap Analyzer: a 12.0% pay gap in the sample). Wave 3 was about dictionaries: `[]` vs `.get()`, looping with `.items()` and the district that is missing from the data (City Services Map, with a reflection on Ypenburg). The big individual assignment was the **Food Bank Manager**, a menu-driven program for food bank volunteers. The homework was: get an API key and finish Exercise 4 (my first API call), run `ask.py` in Cursor, polish the Food Bank Manager, and find a public dataset about my city and check who is missing from it.
+
 **What did I hand in?**
-_List the files, or link to them. Notebook exports, screenshots, scripts._
+
+- [`Week3_Workshop_Student.ipynb`](homework/Week3_Workshop_Student.ipynb) - the full workshop notebook with Exercises 1-3 run, the Food Bank Manager with the bonus (families served and shortage list), the reflections (Ypenburg and "what rule is fair?") and Exercise 4 (the Gemini API: `ask()`, a list of questions, a dictionary of answers). The second cell gives fictional answers to `input()`, so the whole notebook runs from top to bottom.
+- [`foodbank.py`](homework/foodbank.py) - the Food Bank Manager as a separate script: `python foodbank.py`
+- [`ask.py`](homework/ask.py) - my `ask()` function as a script for Cursor's terminal. The key is asked with `getpass` and is never saved in the file.
+- [`dataset_detective.md`](homework/dataset_detective.md) - the dataset detective: population per district of The Hague (where I live) and who is missing from it.
+
+Exercise 4 and `ask.py` are written but not run here, because the API key must stay private. I used the Gemini API for real in Hackathon 3 (LabBridge, see [`hackathon/`](hackathon/)).
+
+Example run of the Food Bank Manager with fictional input: after 4 packages -> `LOW STOCK: cooking oil (4 left)`; a donation of `Rice ` (with a capital and a space) is added to `rice`; a wrong quantity (`abc`) and a wrong menu choice (`9`) are refused; report -> `Total items in stock: 80`, `Lowest stock: cooking oil (4)`, `Families served this session: 4`.
 
 **What did I find difficult, and how did I solve it?**
 
+The parts I needed the most explanation for were: why Python starts counting at 0, why `services['Ypenburg']` crashes but `services.get('Ypenburg', 0)` does not, and how the counting pattern `inventory[item] = inventory.get(item, 0) + qty` works both for a new item and for an existing one. In the Food Bank Manager, it took me a while to see why `continue` is needed to skip items that are at 0. I asked Claude to explain these step by step and ran the code with different inputs to see what happens.
+
+**Use of AI tools:** I used Claude (an AI assistant) a lot for this week's homework. It helped me with most of the code and the written answers. At the same time I used it as a tutor: whenever I did not understand something, I asked it to explain it step by step, and I learned a lot that way. I went through all the code and ran it myself to understand what each part does.
+
 ### Checklist
-- [ ] My workshop / homework files are in `homework/`
-- [ ] Everything runs without errors, or I explained what does not and why
+- [x] My workshop / homework files are in `homework/`
+- [x] Everything runs without errors, or I explained what does not and why
 
 ---
-
 
 ## 2. Hackathon prototype -> [`hackathon/`](hackathon/)
 
@@ -70,5 +83,8 @@ The biggest risk is that a patient reads the AI explanation as a diagnosis. If i
 
 **What is the most important thing I learned this week?**
 
+I learned the difference between a list and a dictionary. A list keeps things in order, and a dictionary lets me find something by its name, like a phone contact. Building the Food Bank Manager helped me see how useful this is in a real program.
+
 **Where does this connect to "AI for Good"?**
-_One concrete link to ethics, sustainability or social impact._
+
+The Ypenburg exercise showed me that if a group or place is missing from the data, the program acts like it doesn't exist. The same happens with AI: it can only be fair to the people who are in its data.
