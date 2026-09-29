@@ -6,14 +6,24 @@
 
 **What was the assignment?**
 
+The Week 2 workshop notebook "Loops & Functions". Wave 1 was about `while` loops, `break` and `continue` (Clean Water Countdown, including input validation with `while True` + `break`). Wave 2 was about `for` loops, `range()` and accumulator variables (Vaccination Campaign Tracker). Wave 3 was about functions, `return` and scope (Health Risk Screener, a BMI calculator and classifier, with a reflection on automating decisions with a flawed metric). The big individual assignment was the **Mood Tracker**, a mental health check-in bot that collects 7 daily mood scores with a validated input function, draws a text bar chart, tracks the best and hardest day and gives feedback from a function. Extra homework: find a health or well-being app that uses automated check-ins.
+
 **What did I hand in?**
-_List the files, or link to them. Notebook exports, screenshots, scripts._
+
+- [`Week2_Workshop_Student.ipynb`](homework/Week2_Workshop_Student.ipynb) - the full workshop notebook with all exercises run, the scope check explained, both reflections answered (BMI and "should a bot give mental health advice?"), and the example app (Daylio) at the end.
+- [`mood_tracker.py`](homework/mood_tracker.py) - the Mood Tracker as a separate Python script, including the bonus streak detector: `python mood_tracker.py`
+
+Example run of the Mood Tracker with fictional scores 6, 4, 5, 7, 8, 8, 6 (and the wrong inputs 11 and 0, which are refused): average 6.3, best day 5 (8/10), hardest day 2 (4/10), longest streak of good days 4.
 
 **What did I find difficult, and how did I solve it?**
 
+Loops and functions were completely new to me. The parts I needed the most explanation for were: why a `while` loop can run forever when the counter is not changed (and why the counter has to go up at the start of the loop when you use `continue`), the difference between `return` and `print()`, and why a variable made inside a function (like `weight_kg`) does not exist outside it. I asked Claude to explain these step by step and ran the code to see what happens.
+
+**Use of AI tools:** I used Claude (an AI assistant) a lot for this week's homework. It helped me with most of the code and the written answers. At the same time I used it as a tutor: whenever I did not understand something, I asked it to explain it step by step, and I learned a lot that way. I went through all the code and ran it myself to understand what each part does.
+
 ### Checklist
-- [ ] My workshop / homework files are in `homework/`
-- [ ] Everything runs without errors, or I explained what does not and why
+- [x] My workshop / homework files are in `homework/`
+- [x] Everything runs without errors, or I explained what does not and why
 
 ---
 
@@ -69,5 +79,8 @@ CareFlow deals with health, so any mistake or delay in a notification could have
 
 **What is the most important thing I learned this week?**
 
+I learned how loops and functions work. A loop repeats something, like asking for a mood score every day, and a function lets me write a rule once and use it again. It was hard at first, but when I ran the code step by step it started to make sense.
+
 **Where does this connect to "AI for Good"?**
-_One concrete link to ethics, sustainability or social impact._
+
+The BMI exercise showed me that a program can give the "right" answer and still be unfair to people. My Mood Tracker and our CareFlow app both deal with health, so I think tools like this should help people, not make decisions for them.
