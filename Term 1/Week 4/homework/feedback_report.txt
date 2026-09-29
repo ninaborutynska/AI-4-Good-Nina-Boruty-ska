@@ -1,0 +1,26 @@
+=== Community Feedback Report ===
+File analysed: community_feedback.txt
+Responses analysed: 19
+Average words per response: 12.4
+
+Top 5 keywords:
+  1. bike (3x)
+  2. street (3x)
+  3. great (3x)
+  4. broken (3x)
+  5. lights (3x)
+
+Urgent responses: 5
+  ! ALERT: broken glass on the path near the primary school.
+  ! The playground is lovely but the benches are broken.
+  ! I feel unsafe walking home at night, there are no lights near the bus stop.
+  ! Danger: a tree fell on the bike path after the storm and is still there.
+  ! Broken elevator at the metro station for 3 weeks, I cannot get up with my wheelchair.
+
+Mood: mostly negative (13 positive words, 14 negative words)
+
+Numbers mentioned:
+  200  <- Bike parking at the station is always full, we need at least 200 more places.
+  30  <- The bus to the hospital only comes every 30 minutes, that is too slow.
+  6  <- Too much noise from the construction work, it starts at 6 in the morning.
+  3  <- Broken elevator at the metro station for 3 weeks, I cannot get up with my wheelchair.
