@@ -1,0 +1,77 @@
+# Support your club. Not every new kit. ⚽
+
+**AI for Good, Hackathon 4: Picture the Planet**
+**SDG 13: Climate Action**
+
+🎬 Watch the film: https://youtu.be/e02sWHgL7ko
+
+## The problem
+
+Every season, football clubs bring out a new kit. Many fans buy the new shirt every year, while the old ones pile up in the wardrobe.
+
+Football shirts are usually made of polyester, which is basically plastic made from oil. One polyester shirt is responsible for about 20 kg of CO₂ over its lifetime. That is about the same as driving 140 km by car. And every time the shirt is washed, tiny bits of plastic end up in the water.
+
+**Our sources:**
+
+- One polyester T-shirt ≈ 20.56 kg of CO₂ over its lifetime, about the same as driving 140 km. RMIT University study (2018), reported by ABC News (29 August 2023). https://www.abc.net.au/news/2023-08-29/researchers-find-one-polyester-shirt-creates-20/102788106
+  *Note: this number is for a regular polyester T-shirt, not a football shirt specifically, so for our film it is an estimate.*
+- Synthetic clothes (mainly polyester) cause up to 35% of the tiny plastic pieces (microplastics) found in the ocean. Environmental Science & Technology (2026), PMC12825150.
+- One 6 kg load of laundry can release around 700,000 plastic microfibres. Scientific Reports (2025), PMC12859020.
+- Recycled polyester is not the answer: it sheds about 55% more microfibres than new polyester. Changing Markets Foundation, "Spinning Greenwash" (2025). https://changingmarkets.org/report/spinning-greenwash/
+- Football shirts are usually made of polyester. For example, the Ajax home shirt 2025/26 is 100% recycled polyester. Voetbalshop.nl: https://www.voetbalshop.nl/en/adidas-ajax-home-shirt-2025-2026.html
+
+## Why SDG 13?
+
+SDG 13 is about fighting climate change. One of its goals (target 13.3) is to make people more aware of it. That is exactly what our film tries to do: it shows football fans a climate cost they usually never see, hidden in something as normal as buying a new shirt.
+
+## Who is the film for?
+
+The film is for **football fans in the Netherlands, around 15 to 25 years old, who buy the new club shirt every season.**
+
+For them, buying the new kit feels like part of supporting their club. And one shirt feels small and harmless.
+
+Where they will see the film: on TikTok and Instagram Reels, in the week a club launches its new kit.
+
+## Who is it NOT for?
+
+- People who already avoid fast fashion.
+- People who don't follow football, because the story would not work for them.
+
+## How to run the workflow
+
+We made the film in ComfyUI. Our laptop doesn't have a strong enough graphics card, and the free version of Comfy Cloud would not run our workflows. So we used RunningHub (runninghub.ai), a website that runs real ComfyUI in the browser.
+
+**Video clips** ([`minimax-h3-t2va_hackathon4.json`](minimax-h3-t2va_hackathon4.json)):
+
+1. Open RunningHub, or any ComfyUI with the MiniMax H3 nodes.
+2. Drag the JSON file into the ComfyUI window.
+3. Paste the prompt of the shot you want into the **T2VA Text Encode** box.
+4. Set the duration, width and height in the **T2VA Target** box.
+5. Type the seed into the **Dual Sigma Sampler** box.
+6. Give the file a name in the **Save Video** box and click **Run**.
+
+You can find the prompt, duration and seed of every shot in our shot list: [`Hackathon4_workflow.pdf`](Hackathon4_workflow.pdf).
+
+**Text screens** ([`Z-image-turbo-workflow_hackathon4.json`](Z-image-turbo-workflow_hackathon4.json)):
+
+1. Drag the JSON file into the ComfyUI window.
+2. Paste the text of the screen into the **CLIP Text Encode** box.
+3. Type the seed into the **KSampler** box and click **Run**.
+
+RunningHub puts a small "RunningHub AI" logo in the corner of every video. We removed it only by cropping the image, not with any other AI tool, so everything in the film still comes from ComfyUI.
+
+## Made with AI
+
+Everything in this film was made with AI. The fan, the factory and the stadium are not real, and nothing shown is a real place or event.
+
+## Ethical reflection
+
+Our facts come from real sources. But the 20 kg CO₂ number is for a normal polyester T-shirt, not a football shirt, so it is only an estimate. The smoke over the stadium can look like a real fire, but it is not real. The factory, the chimneys and the stadium are all made up. We did not use real club names, logos or sponsors on purpose. Still, the AI sometimes added marks that looked like real sports brand logos. So we added "no badges" to our prompts, tried other seeds, but one logo that looks like Adidas is still visible in the film. The fan is not a real person, so we did not need anyone's permission. But the AI chose how he looks by itself. In our first version, the AI kept making East Asian faces for "a young man", and once it even made a young woman. So we changed the prompt to "a young Dutch man". This showed us that AI can be biased. Viewers know the film is made with AI because every shot has a "Generated by AI" label in the corner. The YouTube description and our README also say this. To get our 8 shots and 2 text screens, we made 39 generations in total. We think this is okay for a short film for fans who buy a new shirt every year. We also tried to use less energy: we tested at low quality first, used fewer steps (20 instead of 50) and used some clips again instead of making new ones.
+
+## Files in this folder
+
+- [`support-your-club_720p.mp4`](support-your-club_720p.mp4): the film (720p)
+- [`minimax-h3-t2va_hackathon4.json`](minimax-h3-t2va_hackathon4.json): workflow for the video clips
+- [`Z-image-turbo-workflow_hackathon4.json`](Z-image-turbo-workflow_hackathon4.json): workflow for the text screens
+- [`Hackathon4_workflow.pdf`](Hackathon4_workflow.pdf): shot list
+- [`Support Your Club.pdf`](Support%20Your%20Club.pdf): presentation slides
