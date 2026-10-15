@@ -1,0 +1,35 @@
+{
+  "source_comments": 2486,
+  "classified_comments": 2483,
+  "unclassified_comments": 3,
+  "sentiment_counts": {
+    "Negative": 1224,
+    "Neutral": 957,
+    "Positive": 302
+  },
+  "processing_status_counts": {
+    "analysed": 2483,
+    "unsupported_language": 2,
+    "empty": 1
+  },
+  "source_sha256": "376096e108d0541ae0f2e6365fa6287f382287846a3c5287add25232e81650c9",
+  "source_unchanged": true,
+  "prediction_ids_unique": true,
+  "manual_sample_size": 60,
+  "actual_manual_labels": 60,
+  "model_versions": [
+    "cardiffnlp/twitter-roberta-base-sentiment-latest@3216a57f2a0d9c45a2e6c20157c20c49fb4bf9c7"
+  ],
+  "result_bytes": 423695,
+  "quality_flag_counts": {
+    "relevance_not_verified": 2486,
+    "low_confidence": 635,
+    "short_text_language_uncertain": 431,
+    "language_uncertain": 129,
+    "possible_spam": 9,
+    "truncated": 2
+  },
+  "relevant_manual_labels": 51,
+  "documented_failures": 3,
+  "evaluation_status": "ready"
+}

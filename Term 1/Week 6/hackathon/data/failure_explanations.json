@@ -1,0 +1,17 @@
+{
+  "source": "Explicit human explanations supplied in the chat on 14 October 2026",
+  "explanations": {
+    "UgyJCK9rUG28lfZHbbZ4AaABAg": {
+      "original_explanation": "sarcasm",
+      "explanation": "The annotator interprets this comment as sarcasm, rather than literal praise of the technology. The annotator's label is Neutral."
+    },
+    "UgyH3jFIRIzYE6XE6tt4AaABAg": {
+      "original_explanation": "If you hit it with a high intensity hose it will break because of the electronics.",
+      "explanation": "The annotator interprets the comment as endorsing damage to the vehicle with a high-intensity water hose, expecting its electronics to break. This expresses a negative attitude toward the vehicle despite the phrase 'That would've been great'."
+    },
+    "UgwyFTig-tU7aRPUOld4AaABAg": {
+      "original_explanation": "Smart is used saracasticly",
+      "explanation": "The word 'smart' is used sarcastically. The comment mocks the vehicle's behaviour rather than praising its intelligence."
+    }
+  }
+}

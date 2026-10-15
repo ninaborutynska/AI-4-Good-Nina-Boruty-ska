@@ -1,0 +1,19 @@
+{
+  "imported_at": "2026-10-14T12:26:12.257011+00:00",
+  "workbook": "C:/Users/luuka/Downloads/manual_labels_simple.xlsx",
+  "sample_size": 60,
+  "label_counts": {
+    "Negative": 26,
+    "Neutral": 17,
+    "Positive": 8,
+    "Not relevant": 9,
+    "": 0
+  },
+  "manual_csv_sha256": "7a248134dea7f0fff16f2bea5502c64fed9414af537d6e80c6ff89ec96b9a22a",
+  "supplied_completions": {
+    "UgwPuXXkK3XtufRHQTB4AaABAg": "Neutral",
+    "UgzFaRzS0koHB9vl2ex4AaABAg": "Negative"
+  },
+  "completion_source": "Explicit human replies in the chat",
+  "workbook_sha256": "b0013e174a489575fa9d959035f993322efd5bfab6035c439b71e51999877fcf"
+}

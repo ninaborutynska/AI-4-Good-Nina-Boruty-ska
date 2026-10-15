@@ -1,0 +1,14 @@
+{
+  "counts": {
+    "successful": 2535,
+    "skipped": 3,
+    "failed": 0,
+    "duplicate_input": 0,
+    "malformed_input": 0
+  },
+  "total_predictions": 2535,
+  "total_statuses": 2538,
+  "source_sha256": "6f70e1b0a5358772163226fa78f0d0869babd058932da629a61f7d4dc2d08b42",
+  "source_unchanged": true,
+  "source_commit": "7446ca905a485281f2883e0ef31c0b9b3d099142"
+}
