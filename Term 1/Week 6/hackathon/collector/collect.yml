@@ -1,0 +1,55 @@
+
+name: YouTube Comment Collector
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: youtube-comment-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install \
+            pandas \
+            google-api-python-client
+
+      - name: Collect comments
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }} 
+        run: python "Hackathon 6/technical/collect_comments.py"
+
+      - name: Save dataset to GitHub
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add "Hackathon 6/data/"
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update YouTube comments"
+            git pull --rebase
+            git push
+          fi
+
