@@ -1,0 +1,11 @@
+.venv/
+.model-cache/
+runtime/
+snapshots/
+__pycache__/
+*.lock
+*.tmp
+.presentation-build/
+.chart-data-*/
+.env*
+!.env.example

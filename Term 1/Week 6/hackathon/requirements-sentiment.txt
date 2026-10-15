@@ -1,0 +1,6 @@
+torch>=2.6,<3
+transformers>=4.48,<6
+pandas>=2.2,<4
+langdetect==1.0.9
+vaderSentiment==3.3.2
+filelock>=3.16,<5
