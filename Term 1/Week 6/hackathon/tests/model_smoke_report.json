@@ -1,0 +1,25 @@
+{
+  "test_data": "Synthetic smoke-test inputs; not collected comments or ground truth",
+  "model": "cardiffnlp/twitter-roberta-base-sentiment-latest@3216a57f2a0d9c45a2e6c20157c20c49fb4bf9c7",
+  "device": "cpu",
+  "seconds": 24.04,
+  "inference_seconds": 4.622,
+  "predictions": [
+    {
+      "sentiment": "Positive",
+      "confidence": 0.9896878600120544
+    },
+    {
+      "sentiment": "Neutral",
+      "confidence": 0.9390929341316223
+    },
+    {
+      "sentiment": "Negative",
+      "confidence": 0.9440473914146423
+    },
+    {
+      "sentiment": "Neutral",
+      "confidence": 0.6105368733406067
+    }
+  ]
+}
