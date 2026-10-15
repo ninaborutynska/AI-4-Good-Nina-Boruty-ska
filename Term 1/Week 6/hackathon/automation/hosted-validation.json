@@ -1,0 +1,19 @@
+{
+  "counts": {
+    "successful": 2511,
+    "skipped": 3,
+    "failed": 0,
+    "duplicate_input": 0,
+    "malformed_input": 0
+  },
+  "total_predictions": 2511,
+  "total_statuses": 2514,
+  "source_sha256": "7b1ba40406a924f09eb7d134839b6c3343b21f5d85c68a66ff82b60fd0b2bfcf",
+  "source_unchanged": true,
+  "source_commit": "3a4c83c308c0fb72e5aab18169550944ede19d78",
+  "run_id": 38615905197,
+  "conclusion": "success",
+  "inference_seconds": 345.63,
+  "artifact_id": 11920815729,
+  "artifact_sha256": "4f5e7a9959114eba50f4cd1aa314f5834b530f34be47fa8324c7ca3a0bcbc65d"
+}

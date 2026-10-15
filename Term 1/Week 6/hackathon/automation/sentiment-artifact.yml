@@ -1,0 +1,50 @@
+# PROPOSAL ONLY: this file is outside .github/workflows and is not enabled.
+# Inspect the actual collector YAML first and replace the exact workflow name.
+# This first validation stage has no repository write permission.
+name: Sentiment analysis (artifact validation)
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["REPLACE_WITH_VERIFIED_COLLECTOR_WORKFLOW_NAME"]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: sentiment-analysis
+  cancel-in-progress: false
+jobs:
+  analyse:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 'Hackathon 6/requirements-sentiment.txt'
+      - uses: actions/cache@v4
+        with:
+          path: 'Hackathon 6/.model-cache'
+          key: sentiment-roberta-3216a57f2a0d9c45a2e6c20157c20c49fb4bf9c7
+      - name: Install CPU inference dependencies
+        run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r 'Hackathon 6/requirements-sentiment.txt'
+      - name: Run pipeline correctness checks
+        run: python -m unittest discover -s 'Hackathon 6/tests' -p 'test_*.py' -v
+      - name: Process pending comments
+        run: python 'Hackathon 6/analyse_sentiment.py' --revision 3216a57f2a0d9c45a2e6c20157c20c49fb4bf9c7 --batch-size 16 --threads 2 --retry-failed
+      - name: Preserve sentiment checkpoints for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sentiment-checkpoints
+          path: |
+            Hackathon 6/data/sentiment_results.csv
+            Hackathon 6/data/processing_status.csv
+          if-no-files-found: warn
+          retention-days: 3
