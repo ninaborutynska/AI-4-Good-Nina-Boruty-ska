@@ -20,40 +20,26 @@ _List the files, or link to them. Notebook exports, screenshots, scripts._
 
 ## 2. Hackathon prototype -> [`hackathon/`](hackathon/)
 
-> Your tool and your SDG for this hackathon are announced at the **start of Friday's class**.
-> Write them down here once you know them.
+**Project title:** BinWatch. Which bin should the crew clear first?
 
-**Project title:**
+**My pair partner:** Cameron Ruiter
 
-**My pair partner:**
+**Tool we had to use:** Roboflow
 
-**Tool we had to use:**
+**SDG we had to address:** SDG 15 - Life on Land
 
-**SDG we had to address:**
-
-**What problem does it solve, and for whom?**
-_Name a real, specific user. "Everyone" is not a user._
-
-**What did you build?**
-_Two or three sentences. What can a user actually do with it?_
-
-**Link to the live thing (if any):**
-_Deployed URL, workflow export, video demo - whatever proves it works._
-
-**How do I run it?**
-_Short instructions so someone else can start it._
+**Link to the live thing:** [binwatch.streamlit.app](https://binwatch.streamlit.app) (code also in Cameron's repo: [cameronruiter/binwatch](https://github.com/cameronruiter/binwatch))
 
 **Who did what?**
-_Be honest about the split of work between you and your partner._
+We both filmed the videos. Cameron checked the labels, trained the model and built the app. I wrote the README, the ethical reflection and the slides. We both used Claude: Cameron for the labelling, the app code and the data card, me for the texts and slides.
 
-**Ethical reflection - what are the risks of your tool? Who could it harm?**
-_Every hackathon requires this. One honest paragraph beats three vague ones._
+The problem, the user, how it works, the results and how to run it are in the [hackathon README](hackathon/README.md). The data card and ethical reflection are in [ETHICAL_REFLECTION.md](hackathon/ETHICAL_REFLECTION.md), and the slides are in [BinWatch_slides.pdf](hackathon/BinWatch_slides.pdf).
 
 ### Checklist
-- [ ] Prototype code (or export / workflow file) is in `hackathon/`
-- [ ] This week's slides are in `hackathon/`
-- [ ] The prototype actually runs, and I wrote down how to run it
-- [ ] Ethical reflection written above
+- [x] Prototype code (or export / workflow file) is in `hackathon/`
+- [x] This week's slides are in `hackathon/`
+- [x] The prototype actually runs, and I wrote down how to run it
+- [x] Ethical reflection written above
 
 ---
 
